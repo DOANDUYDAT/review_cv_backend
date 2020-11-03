@@ -1,5 +1,9 @@
+/* eslint-disable no-unused-vars */
 const { authenticate } = require('@feathersjs/authentication').hooks;
 const { required } = require('feathers-hooks-common');
+
+const validateUser = require('../../hooks/validation/user');
+const populateMessage = require('../../hooks/populate-message');
 
 const {
   hashPassword, protect
@@ -10,9 +14,9 @@ module.exports = {
     all: [],
     find: [ authenticate('jwt') ],
     get: [ authenticate('jwt') ],
-    create: [ required('email', 'password'), hashPassword('password') ],
-    update: [ hashPassword('password'),  authenticate('jwt') ],
-    patch: [ hashPassword('password'),  authenticate('jwt') ],
+    create: [ validateUser(), hashPassword('password') ],
+    update: [ validateUser(), hashPassword('password'),  authenticate('jwt') ],
+    patch: [ validateUser(), hashPassword('password'),  authenticate('jwt') ],
     remove: [ authenticate('jwt') ]
   },
 

@@ -10,6 +10,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       const dir = await fsPromises.open(dirPath);
       if (dir) {
         await fsPromises.appendFile(logFilePath, errorLog);
+        dir.close();
       }
     } catch (error) {
       await fsPromises.mkdir(dirPath);

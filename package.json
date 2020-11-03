@@ -54,6 +54,7 @@
     "mongodb": "^3.6.2",
     "mongodb-core": "^3.2.7",
     "serve-favicon": "^2.5.0",
+    "validator": "^13.1.17",
     "winston": "^3.3.3"
   },
   "devDependencies": {

@@ -4,6 +4,7 @@ const comments = require('./comments/comments.service.js');
 const notifications = require('./notifications/notifications.service.js');
 const questions = require('./questions/questions.service.js');
 const answers = require('./answers/answers.service.js');
+const cvs = require('./cvs/cvs.service.js');
 // eslint-disable-next-line no-unused-vars
 module.exports = function (app) {
   app.configure(users);
@@ -12,4 +13,5 @@ module.exports = function (app) {
   app.configure(notifications);
   app.configure(questions);
   app.configure(answers);
+  app.configure(cvs);
 };
