@@ -4,7 +4,6 @@ const validator = require('validator');
 module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return async context => {
     const { data, method } = context;
-    const roles = ['member', 'specialist', 'volunteer', 'admin'];
     const re = /^(0|\+84)[0-9]{9}$/;
     if (method === 'create') {
       if (!data.email) {
@@ -19,11 +18,6 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       }
       if (!data.password) {
         throw new BadRequest('A password is required');
-      }
-      if (!data.role) {
-        throw new BadRequest('A role is required');
-      } else if (!roles.includes(data.role)) {
-        throw new BadRequest('Role is invalid');
       }
     } else if (method === 'update' || method === 'patch') {
       if (!data.userName) {

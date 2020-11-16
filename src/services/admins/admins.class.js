@@ -1,13 +1,11 @@
 const { Service } = require('feathers-mongodb');
 
-exports.Questions = class Questions extends Service {
+exports.Admins = class Admins extends Service {
   constructor(options, app) {
     super(options);
-    
+
     app.get('mongoClient').then(db => {
-      this.Model = db.collection('questions');
+      this.Model = db.collection('admins');
     });
   }
-
-  
 };

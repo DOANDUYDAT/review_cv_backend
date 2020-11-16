@@ -2,24 +2,18 @@
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 
 /* eslint-disable require-atomic-updates */
-module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
+module.exports = function (field, options = {}) { // eslint-disable-line no-unused-vars
   return async context => {
     // Get `app`, `method`, `params` and `result` from the hook context
     const { app, method, result, params } = context;
     // Function that adds the user to a single message object
-    const addUser = async message => {
+    const addUser = async currentObject => {
       // Get the user based on their id, pass the `params` along so
       // that we get a safe version of the user data
-      const user = await app.service('users').get(message.authorId, {
-        ...params,
-        query: {
-          $select: ['_id', 'username', 'role']
-        }
-      });
+      const user = await app.service('users').get(currentObject[field], params);
       // Merge the message content to include the `user` object
-      // console.log('user:', user);
       return {
-        ...message,
+        ...currentObject,
         user
       };
     };

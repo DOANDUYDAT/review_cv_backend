@@ -4,26 +4,24 @@ const validator = require('validator');
 module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return async context => {
     const { data, method } = context;
-    const roles = ['member', 'specialist', 'volunteer', 'admin'];
-    const re = /^(0|\+84)[0-9]{9}$/;
+    const regexPhone = /^(0|\+84)[0-9]{9}$/;
+    const regexName = /^[A-Za-z]/;
+    const regexUrl = /^[A-Za-z\-_.:?/\\]+$/;
     if (method === 'create') {
-      if (!data.email) {
-        throw new BadRequest('A email is required');
-      } else if (!validator.isEmail(data.email)) {
-        throw new BadRequest('Incorrect email format');
+      if (!data.phone) {
+        throw new BadRequest('A phone is required');
+      } else if (!regexPhone.test(data.phone)) {
+        throw new BadRequest('Phone contains only number and start with 0');
       }
-      if (!data.userName) {
-        throw new BadRequest('A username is required');
-      } else if (!validator.isAlphanumeric(data.userName)){
-        throw new BadRequest('User name contains only letter and number');
+      if (!data.websiteCompany) {
+        throw new BadRequest('A website company is required');
+      } else if (!regexName.test(data.websiteCompany)) {
+        throw new BadRequest('Website company contains only number and start with 0');
       }
-      if (!data.password) {
-        throw new BadRequest('A password is required');
-      }
-      if (!data.role) {
-        throw new BadRequest('A role is required');
-      } else if (!roles.includes(data.role)) {
-        throw new BadRequest('Role is invalid');
+      if (!data.company) {
+        throw new BadRequest('A company is required');
+      } else if (!regexUrl.test(data.company)) {
+        throw new BadRequest('Company contains only number and start with 0');
       }
     } else if (method === 'update' || method === 'patch') {
       if (!data.userName) {
@@ -33,7 +31,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       }
       if (!data.phone) {
         throw new BadRequest('A phone is required');
-      } else if (!re.test(data.phone)) {
+      } else if (!regexPhone.test(data.phone)) {
         throw new BadRequest('Phone contains only 10 number and start with 0');
       }
       if (data.birthday && validator.isDate(data.birthday, {

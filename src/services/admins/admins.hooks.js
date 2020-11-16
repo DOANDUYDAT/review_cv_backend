@@ -2,30 +2,19 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 const { disallow } = require('feathers-hooks-common');
 
-const validateUser = require('../../hooks/validation/user');
-const populateMessage = require('../../hooks/populate-message');
-
-const {
-  hashPassword, protect
-} = require('@feathersjs/authentication-local').hooks;
-
 module.exports = {
   before: {
-    all: [],
+    all: [ disallow('external') ],
     find: [],
     get: [],
-    create: [  disallow('external'), validateUser() ],
+    create: [],
     update: [],
     patch: [],
     remove: []
   },
 
   after: {
-    all: [
-      // Make sure the password field is never sent to the client
-      // Always must be the last hook
-      protect('password')
-    ],
+    all: [],
     find: [],
     get: [],
     create: [],
