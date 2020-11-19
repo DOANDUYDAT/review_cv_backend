@@ -9,6 +9,7 @@ const admins = require('./admins/admins.service.js');
 const specialists = require('./specialists/specialists.service.js');
 const volunteers = require('./volunteers/volunteers.service.js');
 const members = require('./members/members.service.js');
+const uploads = require('./uploads/uploads.service.js');
 // eslint-disable-next-line no-unused-vars
 module.exports = function (app) {
   app.configure(users);
@@ -22,4 +23,5 @@ module.exports = function (app) {
   app.configure(specialists);
   app.configure(volunteers);
   app.configure(members);
+  app.configure(uploads);
 };
