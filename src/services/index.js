@@ -10,6 +10,8 @@ const specialists = require('./specialists/specialists.service.js');
 const volunteers = require('./volunteers/volunteers.service.js');
 const members = require('./members/members.service.js');
 const uploads = require('./uploads/uploads.service.js');
+const emails = require('./emails/emails.service.js');
+const authmanagement = require('./authmanagement/authmanagement.service.js');
 // eslint-disable-next-line no-unused-vars
 module.exports = function (app) {
   app.configure(users);
@@ -24,4 +26,6 @@ module.exports = function (app) {
   app.configure(volunteers);
   app.configure(members);
   app.configure(uploads);
+  app.configure(emails);
+  app.configure(authmanagement);
 };

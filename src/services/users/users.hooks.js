@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 const { authenticate } = require('@feathersjs/authentication').hooks;
-const { disallow } = require('feathers-hooks-common');
-
+const commonHooks = require('feathers-hooks-common');
+const accountService = require('../authmanagement/notifier');
 const validateUser = require('../../hooks/validation/user');
-const populateMessage = require('../../hooks/populate-message');
+const verifyHooks = require('feathers-authentication-management').hooks;
 
 const {
   hashPassword, protect
@@ -14,10 +14,27 @@ module.exports = {
     all: [],
     find: [],
     get: [],
-    create: [  disallow('external'), validateUser() ],
-    update: [],
-    patch: [],
-    remove: []
+    create: [ commonHooks.disallow('external'), validateUser(), verifyHooks.addVerification() ],
+    update: [ commonHooks.disallow('external')],
+    patch: [
+      commonHooks.iff(
+        commonHooks.isProvider('external'),
+        commonHooks.preventChanges(true,
+          ['email',
+            'isVerified',
+            'verifyToken',
+            'verifyShortToken',
+            'verifyExpires',
+            'verifyChanges',
+            'resetToken',
+            'resetShortToken',
+            'resetExpires']
+        ),
+        hashPassword('password'),
+        authenticate('jwt')
+      )
+    ],
+    remove: [authenticate('jwt')]
   },
 
   after: {
@@ -28,7 +45,12 @@ module.exports = {
     ],
     find: [],
     get: [],
-    create: [],
+    create: [
+      context => {
+        accountService(context.app).notifier('resendVerifySignup', context.result);
+      },
+      verifyHooks.removeVerification()
+    ],
     update: [],
     patch: [],
     remove: []
