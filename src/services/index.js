@@ -12,6 +12,7 @@ const members = require('./members/members.service.js');
 const uploads = require('./uploads/uploads.service.js');
 const emails = require('./emails/emails.service.js');
 const authmanagement = require('./authmanagement/authmanagement.service.js');
+const close = require('./questions/close/close.service.js');
 // eslint-disable-next-line no-unused-vars
 module.exports = function (app) {
   app.configure(users);
@@ -28,4 +29,5 @@ module.exports = function (app) {
   app.configure(uploads);
   app.configure(emails);
   app.configure(authmanagement);
+  app.configure(close);
 };

@@ -44,7 +44,9 @@ module.exports = {
       protect('password')
     ],
     find: [],
-    get: [],
+    get: [
+      verifyHooks.removeVerification()
+    ],
     create: [
       context => {
         accountService(context.app).notifier('resendVerifySignup', context.result);

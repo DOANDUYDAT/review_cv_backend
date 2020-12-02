@@ -25,7 +25,8 @@
     },
     "local": {
       "usernameField": "email",
-      "passwordField": "password"
+      "passwordField": "password",
+      "errorMessage": "Email or password incorrect"
     }
   },
   "mongodb": "mongodb://localhost:27017/review_cv_backend"

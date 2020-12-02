@@ -6,7 +6,7 @@ logs
 .env
 
 # uploads
-uploads
+uploads/*
 
 # Runtime data
 pids
