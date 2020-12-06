@@ -5,11 +5,12 @@ const {
 } = require('@feathersjs/authentication-local').hooks;
 
 const populateUser = require('../../hooks/populate-user');
+const processQuery = require('../../hooks/specialists/process-query');
 
 module.exports = {
   before: {
     all: [],
-    find: [ authenticate('jwt') ],
+    find: [ authenticate('jwt'), processQuery() ],
     get: [ authenticate('jwt') ],
     create: [ validateSpecialist(), hashPassword('password') ],
     update: [ authenticate('jwt'), validateSpecialist() ],
