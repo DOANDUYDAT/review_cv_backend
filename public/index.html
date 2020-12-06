@@ -62,6 +62,24 @@
         color: #3cf;
       }
     </style>
+    <script type='text/javascript' src='/socket.io/socket.io.js'></script>
+    <script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/core-js/2.1.4/core.min.js'></script>
+    <script type='text/javascript' src='//unpkg.com/feathers-client@^2.0.0/dist/feathers.js'></script>
+    <script type='text/javascript'>
+        // feathers client initialization
+        var socket = io('http://localhost:3030');
+        const app = feathers()
+        .configure(feathers.hooks())
+        .configure(feathers.socketio(socket));
+        const messagesService = app.service('messages');
+        messagesService.find({
+          query: {
+            isRead: true
+          }
+        }).then(res => console.log(res))
+        .catch(err => console.log(err));
+
+    </script>
   </head>
   <body>
     <main class="container">
@@ -71,5 +89,8 @@
         <p class="center-text">For more information on Feathers see <a href="https://docs.feathersjs.com" title="Feathers Documentation" target="blank">docs.feathersjs.com</a>.</p>
       </footer>
     </main>
+    <script>
+
+    </script>
   </body>
 </html>

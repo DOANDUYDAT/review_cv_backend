@@ -19,7 +19,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       context.data = {
         content: data.content,
         // Set the user id
-        authorId: user._id,
+        userId: user._id,
         isRead: false,
         // Add the current date
         createdAt: new Date().getTime()
@@ -28,7 +28,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       context.data = {
         content: data.content,
         // Set the user id
-        authorId: user._id,
+        userId: user._id,
         // Add the current date
         updatedAt: new Date().getTime(),
         isRead: data.isRead ? true : false

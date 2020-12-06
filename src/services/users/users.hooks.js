@@ -8,12 +8,16 @@ const verifyHooks = require('feathers-authentication-management').hooks;
 const {
   hashPassword, protect
 } = require('@feathersjs/authentication-local').hooks;
-
+const { mongoKeys } = require('feathers-hooks-common');
+const { ObjectID } = require('mongodb');
+const foreignKeys = [
+  '_id'
+];
 module.exports = {
   before: {
     all: [],
     find: [],
-    get: [],
+    get: [mongoKeys(ObjectID, foreignKeys)],
     create: [ commonHooks.disallow('external'), validateUser(), verifyHooks.addVerification() ],
     update: [ commonHooks.disallow('external')],
     patch: [

@@ -10,7 +10,10 @@ module.exports = function (field, options = {}) { // eslint-disable-line no-unus
     const addUser = async currentObject => {
       // Get the user based on their id, pass the `params` along so
       // that we get a safe version of the user data
-      const user = await app.service('users').get(currentObject[field], params);
+      const user = await app.service('users').get(currentObject[field], {
+        ...params,
+        query: {},
+      });
       // Merge the message content to include the `user` object
       return {
         ...currentObject,

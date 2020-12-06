@@ -7,7 +7,7 @@ const validateMessage = require('../../hooks/validation/message');
 const populateUser = require('../../hooks/populate-user');
 
 const foreignKeys = [
-  '_id', 'authorId'
+  '_id', 'userId'
 ];
 
 module.exports = {
@@ -22,7 +22,7 @@ module.exports = {
   },
 
   after: {
-    all: [populateUser()],
+    all: [populateUser('userId')],
     find: [],
     get: [],
     create: [],
