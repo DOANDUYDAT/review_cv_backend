@@ -21,7 +21,8 @@ exports.Volunteers = class Volunteers extends Service {
       phone: data.phone,
       password: data.password,
       role: 'volunteer',
-      isActive: 1,
+      isActive: true,
+      getEmailNotification: true,
       createdAt: new Date().getTime()
     };
     const { _id } = await userService.create(dataAccount, {
@@ -30,12 +31,11 @@ exports.Volunteers = class Volunteers extends Service {
     });
     const dataSpecialist = {
       userId: _id,
-      isActive: 1,
-      field: data.field,
+      isAccept: false,
+      fields: data.fields,
       reputationPoint: 50,
       rewardPoint: 0,
       accumulationPoint: 0,
-      getEmailNotification: true,
       createdAt: new Date().getTime()
     };
     return super.create(dataSpecialist, params);

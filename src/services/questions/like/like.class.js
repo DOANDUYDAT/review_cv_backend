@@ -1,7 +1,7 @@
-const { NotFound, Forbidden } = require('@feathersjs/errors');
+const { NotFound } = require('@feathersjs/errors');
 
 /* eslint-disable no-unused-vars */
-exports.Close = class Close {
+exports.Like = class Like {
   constructor (options) {
     this.options = options || {};
   }
@@ -14,20 +14,24 @@ exports.Close = class Close {
     // if (Array.isArray(data)) {
     //   return Promise.all(data.map(current => this.create(current, params)));
     // }
-
     const { questionId } = data;
     const question = await this.app.service('questions').get(questionId);
     if (!question) {
       throw new NotFound('Question is not exist');
     } else {
       const user = await this.app.service('users').get(question.userId);
-      if (user._id.toString() == question.userId.toString()) {
-        return this.app.service('questions').patch(questionId, {
-          isClose: true
-        });
+      let likes = [...question.likes];
+      const index = likes.findIndex(e => e.toString() == user._id.toString());
+
+      if (index == -1) {
+        likes.push(user._id);
       } else {
-        throw new Forbidden('Not permission');
+        likes.splice(index, 1);
       }
+
+      return this.app.service('questions').patch(questionId, {
+        likes
+      });
     }
   }
 };

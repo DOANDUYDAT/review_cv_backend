@@ -21,7 +21,8 @@ exports.Specialists = class Specialists extends Service {
       phone: data.phone,
       password: data.password,
       role: 'specialist',
-      isActive: 1,
+      isActive: true,
+      getEmailNotification: true,
       createdAt: new Date().getTime()
     };
     const { _id } = await userService.create(dataAccount, {
@@ -30,11 +31,10 @@ exports.Specialists = class Specialists extends Service {
     });
     const dataSpecialist = {
       userId: _id,
-      isActive: 1,
-      field: data.field,
+      isAccept: false,
+      fields: data.fields,
       reputationPoint: 50,
       websiteCompany: data.websiteCompany,
-      getEmailNotification: true,
       company: data.company,
       createdAt: new Date().getTime()
     };

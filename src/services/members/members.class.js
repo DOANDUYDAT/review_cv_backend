@@ -21,7 +21,8 @@ exports.Members = class Members extends Service {
       phone: data.phone,
       password: data.password,
       role: 'member',
-      isActive: 1,
+      isActive: true,
+      getEmailNotification: true,
       createdAt: new Date().getTime(),
       updatedAt: null
     };
@@ -31,10 +32,9 @@ exports.Members = class Members extends Service {
     });
     const dataMember = {
       userId: _id,
-      isActive: 1,
+      isActive: true,
       listCv: [],
       reputationPoint: 50,
-      getEmailNotification: true,
       createdAt: new Date().getTime(),
       updatedAt: null
     };
