@@ -24,7 +24,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       const { user } = data;
       if (!user.userName) {
         throw new BadRequest('A username is required');
-      } else if (!validator.isAlphanumeric(user.userName)){
+      } else if (!validator.isAlphanumeric(data.userName)){
         throw new BadRequest('Username contains only letter and number');
       }
       if (!user.phone) {
