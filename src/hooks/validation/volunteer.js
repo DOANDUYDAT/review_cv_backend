@@ -12,30 +12,25 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         throw new BadRequest('Incorrect email format');
       }
       if (!data.userName) {
-        throw new BadRequest('A username is required');
+        throw new BadRequest('A userName is required');
       } else if (!validator.isAlphanumeric(data.userName)){
         throw new BadRequest('User name contains only letter and number');
       }
       if (!data.password) {
         throw new BadRequest('A password is required');
       }
-    } else if (method === 'update' || method === 'patch') {
-      if (!data.userName) {
+    }
+    else if (method === 'update' || method === 'patch') {
+      const { user } = data;
+      if (!user.userName) {
         throw new BadRequest('A username is required');
-      } else if (!validator.isAlphanumeric(data.username)){
+      } else if (!validator.isAlphanumeric(user.userName)){
         throw new BadRequest('Username contains only letter and number');
       }
-      if (!data.phone) {
+      if (!user.phone) {
         throw new BadRequest('A phone is required');
-      } else if (!re.test(data.phone)) {
+      } else if (!re.test(user.phone)) {
         throw new BadRequest('Phone contains only 10 number and start with 0');
-      }
-      if (data.birthday && validator.isDate(data.birthday, {
-        format: 'dd/mm/yyyy',
-        strictMode: false,
-        delimiters: '/'
-      })) {
-        throw new BadRequest('Incorrect date format');
       }
     }
 
