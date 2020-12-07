@@ -24,23 +24,18 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         throw new BadRequest('Company contains only number and start with 0');
       }
     } else if (method === 'update' || method === 'patch') {
-      if (!data.userName) {
+      const { user } = data;
+      if (!user.userName) {
         throw new BadRequest('A username is required');
-      } else if (!validator.isAlphanumeric(data.username)){
+      } else if (!validator.isAlphanumeric(user.userName)){
         throw new BadRequest('Username contains only letter and number');
       }
-      if (!data.phone) {
+      if (!user.phone) {
         throw new BadRequest('A phone is required');
-      } else if (!regexPhone.test(data.phone)) {
+      } else if (!regexPhone.test(user.phone)) {
         throw new BadRequest('Phone contains only 10 number and start with 0');
       }
-      if (data.birthday && validator.isDate(data.birthday, {
-        format: 'dd/mm/yyyy',
-        strictMode: false,
-        delimiters: '/'
-      })) {
-        throw new BadRequest('Incorrect date format');
-      }
+
     }
 
     return context;

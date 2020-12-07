@@ -6,11 +6,15 @@ const {
 
 const populateUser = require('../../hooks/populate-user');
 const processQuery = require('../../hooks/specialists/process-query');
-
+const { mongoKeys } = require('feathers-hooks-common');
+const { ObjectID } = require('mongodb');
+const foreignKeys = [
+  '_id', 'userId'
+];
 module.exports = {
   before: {
     all: [],
-    find: [ authenticate('jwt'), processQuery() ],
+    find: [ authenticate('jwt'), processQuery(), mongoKeys(ObjectID, foreignKeys) ],
     get: [ authenticate('jwt') ],
     create: [ validateSpecialist(), hashPassword('password') ],
     update: [ authenticate('jwt'), validateSpecialist() ],

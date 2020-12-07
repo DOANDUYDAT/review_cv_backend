@@ -6,7 +6,7 @@ const { mongoKeys } = require('feathers-hooks-common');
 const { ObjectID } = require('mongodb');
 const populateUser = require('../../hooks/populate-user');
 const foreignKeys = [
-  'userId'
+  '_id', 'userId'
 ];
 
 module.exports = {

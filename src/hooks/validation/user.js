@@ -28,7 +28,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     } else if (method === 'update' || method === 'patch') {
       if (!data.userName) {
         throw new BadRequest('A username is required');
-      } else if (!validator.isAlphanumeric(data.username)){
+      } else if (!validator.isAlphanumeric(data.userName)){
         throw new BadRequest('Username contains only letter and number');
       }
       if (!data.phone) {
