@@ -24,12 +24,13 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         throw new BadRequest('Company contains only number and start with 0');
       }
     } else if (method === 'update' || method === 'patch') {
-      if (!data.userName) {
+      const { user } = data;
+      if (!user.userName) {
         throw new BadRequest('A username is required');
       } else if (!validator.isAlphanumeric(data.username)){
         throw new BadRequest('Username contains only letter and number');
       }
-      if (!data.phone) {
+      if (!user.phone) {
         throw new BadRequest('A phone is required');
       } else if (!regexPhone.test(data.phone)) {
         throw new BadRequest('Phone contains only 10 number and start with 0');
