@@ -14,29 +14,32 @@ exports.Update = class Update {
   async create (data, params) {
     const { _id, userId, userName, phone, fields, getEmailNotification } = data;
     const { user } = params;
-    // nếu người dùng hiện tại ko phải admin hoặc muốn sửa tài khoản của người khác thì không được
-    if (user.role !== 'admin' || user._id != userId) {
+    // nếu người  là admin hoặc chủ tài khoản thì mới được update
+    if (user.role === 'admin' || user._id == userId) {
+      const userChange = await this.app.service('volunteers').get(_id);
+      if (!userChange) {
+        throw new NotFound('User is not exist');
+      } else {
+        await this.app.service('users').patch(userId, {
+          userName,
+          phone,
+          getEmailNotification
+        },
+        {
+          ...params,
+          provider: undefined
+        });
+        return this.app.service('volunteers').patch(_id, {
+          fields
+        }, {
+          ...params,
+          provider: undefined
+        });
+      }
+
+    } else {
       throw new Forbidden('Not Forbidden');
     }
-    const userChange = await this.app.service('volunteers').get(_id);
-    if (!userChange) {
-      throw new NotFound('User is not exist');
-    } else {
-      await this.app.service('users').patch(userId, {
-        userName,
-        phone,
-        getEmailNotification
-      },
-      {
-        ...params,
-        provider: undefined
-      });
-      return this.app.service('volunteers').patch(_id, {
-        fields
-      }, {
-        ...params,
-        provider: undefined
-      });
-    }
+
   }
 };
