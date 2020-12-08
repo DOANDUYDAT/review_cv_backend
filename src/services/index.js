@@ -15,6 +15,7 @@ const updateInfoSpec = require('./specialists/update-info/update.service');
 const volunteers = require('./volunteers/volunteers.service.js');
 const updateInfoVolun = require('./volunteers/update-info/update.service');
 
+// members
 const members = require('./members/members.service.js');
 const updateInfoMember = require('./members/update-info/update.service');
 

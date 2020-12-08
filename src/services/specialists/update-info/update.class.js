@@ -15,7 +15,7 @@ exports.Update = class Update {
     const { _id, userId, userName, phone, fields, getEmailNotification } = data;
     const { user } = params;
     // nếu người  là admin hoặc chủ tài khoản thì mới được update
-    if (user.role !== 'admin' || user._id != userId) {
+    if (user.role === 'admin' || user._id == userId) {
       const userChange = await this.app.service('specialists').get(_id);
       if (!userChange) {
         throw new NotFound('User is not exist');
