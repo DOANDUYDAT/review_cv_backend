@@ -20,23 +20,25 @@ module.exports = {
     get: [mongoKeys(ObjectID, foreignKeys)],
     create: [ commonHooks.disallow('external'), validateUser(), verifyHooks.addVerification() ],
     update: [ commonHooks.disallow('external')],
-    patch: [
-      commonHooks.iff(
-        commonHooks.isProvider('external'),
-        commonHooks.preventChanges(true,
-          ['email',
-            'isVerified',
-            'verifyToken',
-            'verifyShortToken',
-            'verifyExpires',
-            'verifyChanges',
-            'resetToken',
-            'resetShortToken',
-            'resetExpires']
-        ),
-        hashPassword('password'),
-        authenticate('jwt')
-      )
+    patch: [ authenticate('jwt'), commonHooks.disallow('external')
+      // commonHooks.iff(
+      //   commonHooks.isProvider('external'),
+      //   commonHooks.preventChanges(true,
+      //     [
+      //       'email',
+      //       'isActive',
+      //       'isVerified',
+      //       'verifyToken',
+      //       'verifyShortToken',
+      //       'verifyExpires',
+      //       'verifyChanges',
+      //       'resetToken',
+      //       'resetShortToken',
+      //       'resetExpires']
+      //   ),
+      // hashPassword('password'),
+      // authenticate('jwt')
+      // )
     ],
     remove: [authenticate('jwt')]
   },

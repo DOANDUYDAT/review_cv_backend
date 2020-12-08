@@ -3,7 +3,8 @@ const validateVolunteer = require('../../hooks/validation/volunteer');
 const {
   hashPassword
 } = require('@feathersjs/authentication-local').hooks;
-
+const commonHooks = require('feathers-hooks-common');
+const processQuery = require('./hooks/process-query');
 const populateUser = require('../../hooks/populate-user');
 const { mongoKeys } = require('feathers-hooks-common');
 const { ObjectID } = require('mongodb');
@@ -13,11 +14,11 @@ const foreignKeys = [
 module.exports = {
   before: {
     all: [],
-    find: [ authenticate('jwt'), mongoKeys(ObjectID, foreignKeys) ],
+    find: [ authenticate('jwt'), processQuery(), mongoKeys(ObjectID, foreignKeys) ],
     get: [ authenticate('jwt') ],
     create: [ validateVolunteer(), hashPassword('password') ],
-    update: [ authenticate('jwt'), validateVolunteer() ],
-    patch: [ authenticate('jwt'), validateVolunteer() ],
+    update: [ authenticate('jwt'), commonHooks.disallow('external')  ],
+    patch: [ authenticate('jwt'), commonHooks.disallow('external')  ],
     remove: [ authenticate('jwt'), validateVolunteer() ]
   },
 

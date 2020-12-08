@@ -3,9 +3,9 @@ const validateSpecialist = require('../../hooks/validation/specialist');
 const {
   hashPassword
 } = require('@feathersjs/authentication-local').hooks;
-
+const commonHooks = require('feathers-hooks-common');
 const populateUser = require('../../hooks/populate-user');
-const processQuery = require('../../hooks/specialists/process-query');
+const processQuery = require('./hooks/process-query');
 const { mongoKeys } = require('feathers-hooks-common');
 const { ObjectID } = require('mongodb');
 const foreignKeys = [
@@ -17,8 +17,8 @@ module.exports = {
     find: [ authenticate('jwt'), processQuery(), mongoKeys(ObjectID, foreignKeys) ],
     get: [ authenticate('jwt') ],
     create: [ validateSpecialist(), hashPassword('password') ],
-    update: [ authenticate('jwt'), validateSpecialist() ],
-    patch: [ authenticate('jwt'), validateSpecialist() ],
+    update: [ authenticate('jwt'), commonHooks.disallow('external') ],
+    patch: [ authenticate('jwt'), commonHooks.disallow('external')],
     remove: [ authenticate('jwt'), validateSpecialist() ]
   },
 

@@ -40,21 +40,4 @@ exports.Volunteers = class Volunteers extends Service {
     };
     return super.create(dataSpecialist, params);
   }
-
-  async patch(id, data, params) {
-    let { fields, user: { _id, userName, phone, getEmailNotification }} = data;
-
-    await this.app.service('users').patch(_id, {
-      userName,
-      phone,
-      getEmailNotification
-    },
-    {
-      ...params,
-      provider: undefined
-    });
-    return super.patch(id, {
-      fields
-    }, params);
-  }
 };

@@ -3,7 +3,8 @@ const validator = require('validator');
 
 module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return async context => {
-    const { data, method } = context;
+    const { data, method, params } = context;
+    const { provider } = params;
     const regexPhone = /^(0|\+84)[0-9]{9}$/;
     const regexName = /^[A-Za-z]/;
     const regexUrl = /^[A-Za-z\-_.:?/\\]+$/;
@@ -23,7 +24,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       } else if (!regexUrl.test(data.company)) {
         throw new BadRequest('Company contains only number and start with 0');
       }
-    } else if (method === 'update' || method === 'patch') {
+    } else if (provider && (method === 'update' || method === 'patch')) {
       const { user } = data;
       if (!user.userName) {
         throw new BadRequest('A username is required');

@@ -3,7 +3,7 @@ const validator = require('validator');
 
 module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return async context => {
-    const { data, method } = context;
+    const { data, method, provider } = context;
     const re = /^(0|\+84)[0-9]{9}$/;
     if (method === 'create') {
       if (!data.email) {
@@ -20,7 +20,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         throw new BadRequest('A password is required');
       }
     }
-    else if (method === 'update' || method === 'patch') {
+    else if (!!provider && (method === 'update' || method === 'patch')) {
       const { user } = data;
       if (!user.userName) {
         throw new BadRequest('A username is required');
