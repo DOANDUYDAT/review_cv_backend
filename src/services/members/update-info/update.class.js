@@ -29,12 +29,12 @@ exports.Update = class Update {
           ...params,
           provider: undefined
         });
-        return this.app.service('specialists').patch(_id, {
-          fields
+        return this.app.service('memebers').patch(_id, {
         }, {
           ...params,
           provider: undefined
         });
+
       }
     } else {
       throw new Forbidden('Not Forbidden');

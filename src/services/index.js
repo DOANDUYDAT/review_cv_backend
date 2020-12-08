@@ -16,6 +16,8 @@ const volunteers = require('./volunteers/volunteers.service.js');
 const updateInfoVolun = require('./volunteers/update-info/update.service');
 
 const members = require('./members/members.service.js');
+const updateInfoMember = require('./members/update-info/update.service');
+
 const uploads = require('./uploads/uploads.service.js');
 const emails = require('./emails/emails.service.js');
 const authmanagement = require('./authmanagement/authmanagement.service.js');
@@ -31,22 +33,33 @@ module.exports = function (app) {
   app.configure(messages);
   app.configure(comments);
   app.configure(notifications);
-  app.configure(questions);
+
   app.configure(answers);
   app.configure(cvs);
   app.configure(admins);
+
+  app.configure(activeUser);
+  app.configure(deactiveUser);
+
   app.configure(specialists);
+  app.configure(updateInfoSpec);
+  app.configure(acceptSpec);
+
   app.configure(volunteers);
+  app.configure(updateInfoVolun);
+  app.configure(acceptVolun);
+
   app.configure(members);
+  app.configure(updateInfoMember);
+
   app.configure(uploads);
   app.configure(emails);
   app.configure(authmanagement);
+
+  app.configure(questions);
   app.configure(closeQuestion);
   app.configure(likeQuestion);
-  app.configure(activeUser);
-  app.configure(deactiveUser);
-  app.configure(acceptSpec);
-  app.configure(acceptVolun);
-  app.configure(updateInfoSpec);
-  app.configure(updateInfoVolun);
+
+
+
 };
