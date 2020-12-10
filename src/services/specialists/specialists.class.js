@@ -46,7 +46,7 @@ exports.Specialists = class Specialists extends Service {
     // logged user
     const { user } = params;
     if (user.role === 'admin') {
-      const userRemove = this.app.service('specialists').get(id);
+      const userRemove = await this.app.service('specialists').get(id);
 
       if (!userRemove) {
         throw new NotFound('User is not exist');
