@@ -22,9 +22,8 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     } else if (!regexPhone.test(phone)) {
       throw new BadRequest('Phone contains only 10 number and start with 0');
     }
-    if (!getEmailNotification) {
-      throw new BadRequest('A status of get notification by email is required');
-    } else if (typeof getEmailNotification !== 'boolean') {
+
+    if (typeof getEmailNotification !== 'boolean') {
       throw new BadRequest('A status of get notification by email must be a Boolean');
     }
 

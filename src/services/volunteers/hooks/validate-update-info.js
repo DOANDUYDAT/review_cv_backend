@@ -25,9 +25,8 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     if (fields && !Array.isArray(fields) ) {
       throw new BadRequest('Fields must be an array');
     }
-    if (!getEmailNotification) {
-      throw new BadRequest('A status of get notification by email is required');
-    } else if (typeof getEmailNotification !== 'boolean') {
+
+    if (typeof getEmailNotification !== 'boolean') {
       throw new BadRequest('A status of get notification by email must be a Boolean');
     }
 

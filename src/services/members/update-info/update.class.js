@@ -12,11 +12,11 @@ exports.Update = class Update {
   }
 
   async create (data, params) {
-    const { _id, userId, userName, phone, fields, getEmailNotification } = data;
+    const { _id, userId, userName, phone, getEmailNotification } = data;
     const { user } = params;
     // nếu người  là admin hoặc chủ tài khoản thì mới được update
     if (user.role === 'admin' || user._id == userId) {
-      const userChange = await this.app.service('specialists').get(_id);
+      const userChange = await this.app.service('members').get(_id);
       if (!userChange) {
         throw new NotFound('User is not exist');
       } else {
