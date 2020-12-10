@@ -19,16 +19,16 @@ module.exports = {
     create: [ validateVolunteer(), hashPassword('password') ],
     update: [ authenticate('jwt'), commonHooks.disallow('external')  ],
     patch: [ authenticate('jwt'), commonHooks.disallow('external')  ],
-    remove: [ authenticate('jwt'), validateVolunteer() ]
+    remove: [ authenticate('jwt') ]
   },
 
   after: {
-    all: [ populateUser('userId')],
-    find: [],
-    get: [],
-    create: [],
-    update: [],
-    patch: [],
+    all: [],
+    find: [populateUser('userId')],
+    get: [populateUser('userId')],
+    create: [populateUser('userId')],
+    update: [populateUser('userId')],
+    patch: [populateUser('userId')],
     remove: []
   },
 

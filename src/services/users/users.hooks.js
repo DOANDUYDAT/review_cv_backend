@@ -16,31 +16,12 @@ const foreignKeys = [
 module.exports = {
   before: {
     all: [],
-    find: [],
+    find: [mongoKeys(ObjectID, foreignKeys)],
     get: [mongoKeys(ObjectID, foreignKeys)],
     create: [ commonHooks.disallow('external'), validateUser(), verifyHooks.addVerification() ],
-    update: [ commonHooks.disallow('external')],
-    patch: [ authenticate('jwt'), commonHooks.disallow('external')
-      // commonHooks.iff(
-      //   commonHooks.isProvider('external'),
-      //   commonHooks.preventChanges(true,
-      //     [
-      //       'email',
-      //       'isActive',
-      //       'isVerified',
-      //       'verifyToken',
-      //       'verifyShortToken',
-      //       'verifyExpires',
-      //       'verifyChanges',
-      //       'resetToken',
-      //       'resetShortToken',
-      //       'resetExpires']
-      //   ),
-      // hashPassword('password'),
-      // authenticate('jwt')
-      // )
-    ],
-    remove: [authenticate('jwt')]
+    update: [ commonHooks.disallow('external'), authenticate('jwt')],
+    patch: [ commonHooks.disallow('external'), authenticate('jwt')],
+    remove: [commonHooks.disallow('external'), authenticate('jwt')]
   },
 
   after: {

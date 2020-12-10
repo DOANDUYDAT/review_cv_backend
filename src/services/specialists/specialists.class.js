@@ -1,3 +1,4 @@
+const { NotFound, Forbidden } = require('@feathersjs/errors');
 const { Service } = require('feathers-mongodb');
 
 exports.Specialists = class Specialists extends Service {
@@ -39,6 +40,24 @@ exports.Specialists = class Specialists extends Service {
       createdAt: new Date().getTime()
     };
     return super.create(dataSpecialist, params);
+  }
+
+  async remove(id, params) {
+    // logged user
+    const { user } = params;
+    if (user.role === 'admin') {
+      const userRemove = this.app.service('specialists').get(id);
+
+      if (!userRemove) {
+        throw new NotFound('User is not exist');
+      } else {
+        const { userId } = userRemove;
+        await this.app.service('users').remove(userId);
+        return super.remove(id, params);
+      }
+    } else {
+      throw new Forbidden('Not permission');
+    }
   }
 };
 
