@@ -2,12 +2,18 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 const validation = require('./hooks/validation');
 const process = require('./hooks/process');
+const processQuery = require('./hooks/process-query');
 const populateUser = require('../../hooks/users/populate');
 const commonHooks = require('feathers-hooks-common');
+const { mongoKeys } = require('feathers-hooks-common');
+const { ObjectID } = require('mongodb');
+const foreignKeys = [
+  '_id', 'userId', 'questionId'
+];
 module.exports = {
   before: {
     all: [ authenticate('jwt') ],
-    find: [],
+    find: [ mongoKeys(ObjectID, foreignKeys), processQuery()],
     get: [],
     create: [ validation(), process()],
     update: [commonHooks.disallow('external')],
