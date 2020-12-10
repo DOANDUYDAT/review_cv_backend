@@ -1,4 +1,4 @@
-const { NotFound } = require('@feathersjs/errors');
+const { NotFound, BadRequest } = require('@feathersjs/errors');
 
 /* eslint-disable no-unused-vars */
 exports.Like = class Like {
@@ -16,11 +16,14 @@ exports.Like = class Like {
     // }
     const { _id } = data;
     const { user } = params;
-    const question = await this.app.service('questions').get(_id);
-    if (!question) {
-      throw new NotFound('Question is not exist');
+    if (!_id) {
+      throw new BadRequest('A _id is required');
+    }
+    const answer = await this.app.service('answers').get(_id);
+    if (!answer) {
+      throw new NotFound('Answer is not exist');
     } else {
-      let likes = [...question.likes];
+      let likes = [...answer.likes];
       const index = likes.findIndex(e => e.toString() == user._id.toString());
 
       if (index == -1) {
@@ -29,10 +32,10 @@ exports.Like = class Like {
         likes.splice(index, 1);
       }
 
-      await this.app.service('questions').patch(_id, {
+      await this.app.service('answers').patch(_id, {
         likes
       });
-      return this.app.service('questions').get(_id, params);
+      return this.app.service('answers').get(_id, params);
     }
   }
 };

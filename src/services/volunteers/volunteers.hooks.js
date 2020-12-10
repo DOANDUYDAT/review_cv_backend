@@ -23,7 +23,7 @@ module.exports = {
   },
 
   after: {
-    all: [ populateUser('userId') ],
+    all: [ populateUser('userId')],
     find: [],
     get: [],
     create: [],

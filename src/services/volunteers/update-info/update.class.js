@@ -24,17 +24,11 @@ exports.Update = class Update {
           userName,
           phone,
           getEmailNotification
-        },
-        {
-          ...params,
-          provider: undefined
         });
-        return this.app.service('volunteers').patch(_id, {
+        await this.app.service('volunteers').patch(_id, {
           fields
-        }, {
-          ...params,
-          provider: undefined
         });
+        return this.app.service('volunteers').get(_id, params);
       }
 
     } else {

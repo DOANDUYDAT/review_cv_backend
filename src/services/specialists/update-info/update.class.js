@@ -15,7 +15,7 @@ exports.Update = class Update {
     const { _id, userId, userName, phone, fields, getEmailNotification } = data;
     const { user } = params;
     // nếu người  là admin hoặc chủ tài khoản thì mới được update
-    if (user.role === 'admin' || user._id == userId) {
+    if (user.role === 'admin' || user._id.toString() == userId) {
       const userChange = await this.app.service('specialists').get(_id);
       if (!userChange) {
         throw new NotFound('User is not exist');
@@ -24,17 +24,11 @@ exports.Update = class Update {
           userName,
           phone,
           getEmailNotification
-        },
-        {
-          ...params,
-          provider: undefined
         });
-        return this.app.service('specialists').patch(_id, {
+        await this.app.service('specialists').patch(_id, {
           fields
-        }, {
-          ...params,
-          provider: undefined
         });
+        return this.app.service('specialists').get(_id, params);
       }
     } else {
       throw new Forbidden('Not Forbidden');

@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 const { BadRequest } = require('@feathersjs/errors');
-const { filter } = require('compression');
 const validator = require('validator');
 
 module.exports = function (options = {}) { // eslint-disable-line no-unused-vars

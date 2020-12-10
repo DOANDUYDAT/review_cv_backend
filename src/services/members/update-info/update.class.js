@@ -24,17 +24,8 @@ exports.Update = class Update {
           userName,
           phone,
           getEmailNotification
-        },
-        {
-          ...params,
-          provider: undefined
         });
-        return this.app.service('memebers').patch(_id, {
-        }, {
-          ...params,
-          provider: undefined
-        });
-
+        return this.app.service('members').get(_id, params);
       }
     } else {
       throw new Forbidden('Not Forbidden');

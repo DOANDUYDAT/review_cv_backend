@@ -40,21 +40,4 @@ exports.Members = class Members extends Service {
     };
     return super.create(dataMember, params);
   }
-
-  async patch(id, data, params) {
-    let { fields, user: { _id, userName, phone, getEmailNotification }} = data;
-
-    await this.app.service('users').patch(_id, {
-      userName,
-      phone,
-      getEmailNotification
-    },
-    {
-      ...params,
-      provider: undefined
-    });
-    return super.patch(id, {
-      fields
-    }, params);
-  }
 };
