@@ -13,6 +13,7 @@ exports.Accept = class Accept {
 
   async create (data, params) {
     const { _id } = data;
+    // logged user
     const { user } = params;
     if (user.role !== 'admin') {
       throw new Forbidden('Not Forbidden');
@@ -21,12 +22,10 @@ exports.Accept = class Accept {
     if (!userChange) {
       throw new NotFound('User is not exist');
     } else {
-      return this.app.service('specialists').patch(_id, {
+      await this.app.service('specialists').patch(_id, {
         isAccept: true
-      }, {
-        ...params,
-        provider: undefined
       });
+      return this.app.service('specialists').get(_id, params);
     }
   }
 };
