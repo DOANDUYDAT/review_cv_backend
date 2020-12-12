@@ -17,7 +17,7 @@ module.exports = {
   before: {
     all: [],
     find: [mongoKeys(ObjectID, foreignKeys)],
-    get: [mongoKeys(ObjectID, foreignKeys)],
+    get: [],
     create: [ commonHooks.disallow('external'), validateUser(), verifyHooks.addVerification() ],
     update: [ commonHooks.disallow('external'), authenticate('jwt')],
     patch: [ commonHooks.disallow('external'), authenticate('jwt')],

@@ -1,7 +1,7 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 const validationQuestion = require('./hooks/validation');
 const processQuestion = require('./hooks/process');
-const populateUser = require('../../hooks/users/populate');
+const populateUser = require('../../hooks/populate-user');
 const commonHooks = require('feathers-hooks-common');
 
 module.exports = {
@@ -12,7 +12,7 @@ module.exports = {
     create: [ validationQuestion(), processQuestion() ],
     update: [commonHooks.disallow('external')],
     patch: [commonHooks.disallow('external')],
-    remove: []
+    remove: [commonHooks.disallow('external')]
   },
 
   after: {

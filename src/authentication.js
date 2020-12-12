@@ -9,7 +9,9 @@ class MyLocalStrategy extends LocalStrategy {
     if (entity.isVerified === false) {
       throw new NotAuthenticated('User is not verified!');
     }
-
+    if (entity.isActive === false) {
+      throw NotAuthenticated('Account is locked, Please contact with Admin to be supported');
+    }
     return entity;
   }
 }

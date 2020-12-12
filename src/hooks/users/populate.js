@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 
@@ -10,7 +11,7 @@ module.exports = function (field, options = {}) { // eslint-disable-line no-unus
     const addUser = async currentObject => {
       // Get the user based on their id, pass the `params` along so
       // that we get a safe version of the user data
-      const user = await app.service('users').get(currentObject[field], params);
+      const user = await app.service('users').get(currentObject[field]);
       // Merge the message content to include the `user` object
       return {
         ...currentObject,

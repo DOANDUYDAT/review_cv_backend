@@ -3,7 +3,7 @@ const { authenticate } = require('@feathersjs/authentication').hooks;
 const validation = require('./hooks/validation');
 const process = require('./hooks/process');
 const processQuery = require('./hooks/process-query');
-const populateUser = require('../../hooks/users/populate');
+const populateUser = require('../../hooks/populate-user');
 const commonHooks = require('feathers-hooks-common');
 const { mongoKeys } = require('feathers-hooks-common');
 const { ObjectID } = require('mongodb');
@@ -18,11 +18,11 @@ module.exports = {
     create: [ validation(), process()],
     update: [commonHooks.disallow('external')],
     patch: [commonHooks.disallow('external')],
-    remove: []
+    remove: [commonHooks.disallow('external')]
   },
 
   after: {
-    all: [],
+    all: [populateUser('userId')],
     find: [],
     get: [],
     create: [],
