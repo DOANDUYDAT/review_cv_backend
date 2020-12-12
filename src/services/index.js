@@ -30,6 +30,7 @@ const likeQuestion = require('./questions/like/like.service.js');
 const answers = require('./answers/answers.service.js');
 const likeAnswer = require('./answers/like/like.service');
 const dislikeAnswer = require('./answers/dislike/dislike.service');
+const acceptAnswer = require('./answers/accept/accept.service');
 
 const uploads = require('./uploads/uploads.service.js');
 const emails = require('./emails/emails.service.js');
@@ -63,17 +64,17 @@ module.exports = function (app) {
   // members
   app.configure(members);
   app.configure(updateInfoMember);
-
   app.configure(uploads);
   app.configure(emails);
   // questions
   app.configure(questions);
   app.configure(closeQuestion);
   app.configure(likeQuestion);
-  // members
+  // answers
   app.configure(answers);
   app.configure(likeAnswer);
   app.configure(dislikeAnswer);
+  app.configure(acceptAnswer);
 
   app.configure(mysevice);
 };

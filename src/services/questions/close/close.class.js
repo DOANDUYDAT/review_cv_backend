@@ -1,4 +1,4 @@
-const { NotFound, Forbidden } = require('@feathersjs/errors');
+const { NotFound, Forbidden, BadRequest } = require('@feathersjs/errors');
 
 /* eslint-disable no-unused-vars */
 exports.Close = class Close {
@@ -13,7 +13,9 @@ exports.Close = class Close {
   async create (data, params) {
     const { _id } = data;
     const { user } = params;
-
+    if (!_id) {
+      throw new BadRequest('A _id is required');
+    }
     const question = await this.app.service('questions').get(_id);
     if (!question) {
       throw new NotFound('Question is not exist');
