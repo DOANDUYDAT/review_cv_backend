@@ -27,8 +27,8 @@ exports.Accept = class Accept {
         await this.app.service('questions').patch(answer.questionId, {
           isClose: true
         });
-        await this.app.service('answers').patch(_id, {
-          isAccept: true
+        await this.app.service('answers/accept').create({
+          _id: answer.questionId
         });
         return this.app.service('answers').get(_id, params);
       } else {

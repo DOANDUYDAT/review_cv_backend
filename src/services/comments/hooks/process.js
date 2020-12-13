@@ -12,11 +12,9 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     // Update the original data (so that people can't submit additional stuff)
     context.data = {
       userId: user._id,
-      questionId: new ObjectID(data.questionId),
+      answerId: new ObjectID(data.answerId),
       content: data.content,
       likes: [],
-      listComments: [],
-      isAccept: false,
       createdAt: new Date().getTime()
     };
 
