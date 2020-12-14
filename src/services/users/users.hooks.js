@@ -30,7 +30,7 @@ module.exports = {
       // Always must be the last hook
       protect('password')
     ],
-    find: [],
+    find: [verifyHooks.removeVerification()],
     get: [
       verifyHooks.removeVerification()
     ],

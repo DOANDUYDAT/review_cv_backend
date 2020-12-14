@@ -10,6 +10,7 @@ const { ObjectID } = require('mongodb');
 const foreignKeys = [
   '_id', 'userId', 'questionId'
 ];
+
 module.exports = {
   before: {
     all: [ authenticate('jwt') ],
@@ -22,7 +23,7 @@ module.exports = {
   },
 
   after: {
-    all: [populateUser('userId')],
+    all: [],
     find: [],
     get: [],
     create: [],
