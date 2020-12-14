@@ -1,6 +1,6 @@
 // Initializes the `close` service on path `/questions/:questionId/close`
-const { Like } = require('./like.class');
-const hooks = require('./like.hooks');
+const { ExchangePoint } = require('./exchange-point.class');
+const hooks = require('./exchange-point.hooks');
 
 module.exports = function (app) {
   const options = {
@@ -8,10 +8,10 @@ module.exports = function (app) {
   };
 
   // Initialize our service with any options it requires
-  app.use('/comments/like', new Like(options, app));
+  app.use('/volunteers/exchange-point', new ExchangePoint(options, app));
 
   // Get our initialized service so that we can register hooks
-  const service = app.service('comments/like');
+  const service = app.service('volunteers/exchange-point');
 
   service.hooks(hooks);
 };

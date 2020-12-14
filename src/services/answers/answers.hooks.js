@@ -11,6 +11,65 @@ const foreignKeys = [
   '_id', 'userId', 'questionId'
 ];
 
+// fast join
+const { fastJoin, makeCallingParams } = require('feathers-hooks-common');
+const BatchLoader = require('@feathers-plus/batch-loader');
+const { getResultsByKey, getUniqueKeys } = BatchLoader;
+
+const commentResolvers = {
+  joins: {
+    user: (...args) => async (comment, context) => {
+      const {params} = context;
+      comment.user = await context.app.service('users').get(comment.userId, params);
+    },
+    likers: {
+      resolver: (...args) => async (comment, context) => {
+        const { params } = context;
+        comment.likers = (await context.app.service('users').find({
+          ...params,
+          query: {
+            _id: {
+              $in: comment.likes
+            },
+            // $select: ['_id', 'userName']
+          }
+        })).data;
+      }
+    },
+  }
+};
+
+const answerResolvers = {
+  joins: {
+    user: (...args) => async (answer, context) => {
+      const { params } = context;
+      answer.user = (
+        await context.app.service('users').find({
+          ...params,
+          query: { _id: answer.userId },
+          // paginate: false
+        })
+      ).data[0];
+    },
+    comments: {
+      resolver: (...args) => async(answer, context) => {
+        answer.comments = (await context.app.service('comments').find({
+          query: {
+            _id: {
+              $in: answer.listComments
+            },
+            $sort: {
+              createAt: -1
+            }
+          }
+        })).data;
+        return answer.comments;
+      },
+      joins: commentResolvers
+    }
+  }
+};
+
 module.exports = {
   before: {
     all: [ authenticate('jwt') ],
@@ -23,7 +82,7 @@ module.exports = {
   },
 
   after: {
-    all: [],
+    all: [commonHooks.iff(commonHooks.isProvider('external'), fastJoin(answerResolvers))],
     find: [],
     get: [],
     create: [],
