@@ -6,6 +6,7 @@ const { BadRequest } = require('@feathersjs/errors');
 module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return async context => {
     const { data } = context;
+
     if (!data._id) {
       throw new BadRequest('A _id is required');
     }

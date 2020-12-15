@@ -14,11 +14,12 @@ exports.ExchangePoint = class ExchangePoint {
   async create (data, params) {
     const { _id, amount, category } = data;
     const { user } = params;
-    const volunteer = this.app.service('volunteers').get(_id);
+    const volunteer = await this.app.service('volunteers').get(_id);
+
     if (!volunteer) {
       throw new NotFound('Volunteer is not found');
     } else {
-      if (user.role === 'admin' || _id === user._id.toString()) {
+      if (user.role === 'admin' || volunteer.userId.toString() === user._id.toString()) {
         const { reputationPoint, rewardPoint, accumulationPoint } = volunteer;
         if (amount > accumulationPoint) {
           throw new BadRequest('Số điểm đổi không được lớn hơn điểm tích lũy');

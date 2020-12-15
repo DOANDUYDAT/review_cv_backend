@@ -7,11 +7,17 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
 
     // Update the original data (so that people can't submit additional stuff)
     if (method === 'create') {
-      if (!data.title) {
-        throw new BadRequest('A title is required');
+      if (!data.name) {
+        throw new BadRequest('A name is required');
       }
-      if (!data.content) {
-        throw new BadRequest('A content is required');
+      if (!data.value) {
+        throw new BadRequest('A value is required');
+      }
+      if (!data.quantity) {
+        throw new BadRequest('A quantity is required');
+      }
+      if (!data.category) {
+        throw new BadRequest('A category is required');
       }
     }
 
