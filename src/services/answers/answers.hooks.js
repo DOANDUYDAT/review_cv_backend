@@ -22,20 +22,20 @@ const commentResolvers = {
       const {params} = context;
       comment.user = await context.app.service('users').get(comment.userId, params);
     },
-    likers: {
-      resolver: (...args) => async (comment, context) => {
-        const { params } = context;
-        comment.likers = (await context.app.service('users').find({
-          ...params,
-          query: {
-            _id: {
-              $in: comment.likes
-            },
-            // $select: ['_id', 'userName']
-          }
-        })).data;
-      }
-    },
+    // likers: {
+    //   resolver: (...args) => async (comment, context) => {
+    //     const { params } = context;
+    //     comment.likers = (await context.app.service('users').find({
+    //       ...params,
+    //       query: {
+    //         _id: {
+    //           $in: comment.likes
+    //         },
+    //         // $select: ['_id', 'userName']
+    //       }
+    //     })).data;
+    //   }
+    // },
   }
 };
 
@@ -43,13 +43,24 @@ const answerResolvers = {
   joins: {
     user: (...args) => async (answer, context) => {
       const { params } = context;
-      answer.user = (
-        await context.app.service('users').find({
+      // console.log(params);
+      console.log(answer.userId);
+      answer.user = await context.app.service('users').get(answer.userId, params);
+      console.log(answer.user);
+    },
+    likers: {
+      resolver: (...args) => async (answer, context) => {
+        const { params } = context;
+        answer.likers = (await context.app.service('users').find({
           ...params,
-          query: { _id: answer.userId },
-          // paginate: false
-        })
-      ).data[0];
+          query: {
+            _id: {
+              $in: answer.likes
+            },
+            // $select: ['_id', 'userName']
+          }
+        })).data;
+      }
     },
     comments: {
       resolver: (...args) => async(answer, context) => {
@@ -73,7 +84,7 @@ const answerResolvers = {
 module.exports = {
   before: {
     all: [ authenticate('jwt') ],
-    find: [ mongoKeys(ObjectID, foreignKeys), processQuery()],
+    find: [ mongoKeys(ObjectID, foreignKeys)],
     get: [],
     create: [ validation(), process()],
     update: [commonHooks.disallow('external')],

@@ -75,20 +75,20 @@ const commentResolvers = {
       const {params} = context;
       comment.user = await context.app.service('users').get(comment.userId, params);
     },
-    likers: {
-      resolver: (...args) => async (comment, context) => {
-        const { params } = context;
-        comment.likers = (await context.app.service('users').find({
-          ...params,
-          query: {
-            _id: {
-              $in: comment.likes
-            },
-            // $select: ['_id', 'userName']
-          }
-        })).data;
-      }
-    },
+    // likers: {
+    //   resolver: (...args) => async (comment, context) => {
+    //     const { params } = context;
+    //     comment.likers = (await context.app.service('users').find({
+    //       ...params,
+    //       query: {
+    //         _id: {
+    //           $in: comment.likes
+    //         },
+    //         // $select: ['_id', 'userName']
+    //       }
+    //     })).data;
+    //   }
+    // },
   }
 };
 
@@ -103,6 +103,20 @@ const answerResolvers = {
           // paginate: false
         })
       ).data[0];
+    },
+    likers: {
+      resolver: (...args) => async (answer, context) => {
+        const { params } = context;
+        answer.likers = (await context.app.service('users').find({
+          ...params,
+          query: {
+            _id: {
+              $in: answer.likes
+            },
+            // $select: ['_id', 'userName']
+          }
+        })).data;
+      }
     },
     comments: {
       resolver: (...args) => async(answer, context) => {
@@ -164,9 +178,9 @@ const questionResolvers = {
 
 const query = {
   user: true,
-  // starers: [['id', 'name']],
   answers: {
     user: true,
+    likers: true,
     comments: {
       user: true
     }
