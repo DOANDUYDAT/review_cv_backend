@@ -13,14 +13,15 @@ exports.Update = class Update {
 
   async create (data, params) {
     const { _id, userId, userName, phone, fields, getEmailNotification } = data;
+    // logged user
     const { user } = params;
-    // nếu người  là admin hoặc chủ tài khoản thì mới được update
-    if (user.role === 'admin' || user._id.toString() == userId) {
-      const userChange = await this.app.service('specialists').get(_id);
-      if (!userChange) {
-        throw new NotFound('User is not exist');
-      } else {
-        await this.app.service('users').patch(userId, {
+    const userChange = await this.app.service('specialists').get(_id);
+    if (!userChange) {
+      throw new NotFound('User is not exist');
+    } else {
+      // nếu người  là admin hoặc chủ tài khoản thì mới được update
+      if (user.role === 'admin' || user._id.toString() == userChange.userId.toString()) {
+        await this.app.service('users').patch(userChange.userId, {
           userName,
           phone,
           getEmailNotification
@@ -29,10 +30,9 @@ exports.Update = class Update {
           fields
         });
         return this.app.service('specialists').get(_id, params);
+      } else {
+        throw new Forbidden('Not Forbidden');
       }
-    } else {
-      throw new Forbidden('Not Forbidden');
     }
-
   }
 };

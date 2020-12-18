@@ -11,3 +11,11 @@ process.on('unhandledRejection', (reason, p) =>
 server.on('listening', () =>
   logger.info('Feathers application started on http://%s:%d', app.get('host'), process.env.PORT)
 );
+
+
+const messages = app.service('specialists');
+// messages.create({
+//   text: 'updated message'
+// });
+
+messages.on('patched', message => console.log('patched', message));

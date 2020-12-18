@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const dauria = require('dauria');
 
 module.exports = {
@@ -10,11 +11,13 @@ module.exports = {
       // and turn it into a datauri,
       // transparently getting feathers-blob
       // to work with multipart file uploads
-      function(hook) {
-        if (!hook.data.uri && hook.params.file){
-          const file = hook.params.file;
+      function(context) {
+        // console.log('params', context.params);
+        // console.log(context.data);
+        if (!context.data.uri && context.params.file){
+          const file = context.params.file;
           const uri = dauria.getBase64DataURI(file.buffer, file.mimetype);
-          hook.data = {uri: uri};
+          context.data = {uri: uri};
         }
       }
     ],

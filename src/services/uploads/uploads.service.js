@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // Initializes the `uploads` service on path `/uploads`
 const hooks = require('./uploads.hooks');
 
@@ -25,14 +26,14 @@ module.exports = function (app) {
     // multer parses the file named 'uri'.
     // Without extra params the data is
     // temporarely kept in memory
-    multipartMiddleware.single('uri'),
+    // multipartMiddleware.single('uri'),
 
     // another middleware, this time to
     // transfer the received file to feathers
-    function(req,res,next){
-      req.feathers.file = req.file;
-      next();
-    },
+    // function(req,res,next){
+    //   req.feathers.file = req.file;
+    //   next();
+    // },
     blobService({ Model: blobStorage })
   );
 

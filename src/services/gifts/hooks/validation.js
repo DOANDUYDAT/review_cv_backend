@@ -3,8 +3,8 @@ const { BadRequest } = require('@feathersjs/errors');
 module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return async context => {
     // eslint-disable-next-line no-unused-vars
-    const { data, method } = context;
-
+    const { data, method, params } = context;
+    // console.log(data);
     // Update the original data (so that people can't submit additional stuff)
     if (method === 'create') {
       if (!data.name) {

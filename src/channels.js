@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 module.exports = function(app) {
   if(typeof app.channel !== 'function') {
     // If no real-time functionality has been configured just return
@@ -14,25 +15,49 @@ module.exports = function(app) {
     // real-time connection, e.g. when logging in via REST
     if(connection) {
       // Obtain the logged in user from the connection
-      // const user = connection.user;
-      
+      const user = connection.user;
+
       // The connection is no longer anonymous, remove it
       app.channel('anonymous').leave(connection);
 
       // Add it to the authenticated user channel
       app.channel('authenticated').join(connection);
 
-      // Channels can be named anything and joined on any condition 
-      
+      // Channels can be named anything and joined on any condition
+
       // E.g. to send real-time events only to admins use
-      // if(user.isAdmin) { app.channel('admins').join(connection); }
+      if(user.role === 'admin') { app.channel('admins').join(connection); }
+      if (user.role === 'specialist') {
+        app.channel('specialists').join(connection);
+        console.log(user);
+        // user.fields.forEach(element => {
+        //   app.channel(`fields/${element}`).join(connection);
+        // });
+      }
+      if (user.role === 'member') {
+        app.channel('memebers').join(connection);
+
+      }
+      if (user.role === 'volunteer') {
+        app.channel('volunteers').join(connection);
+        user.fields.forEach(element => {
+          app.channel(`fields/${element}`).join(connection);
+        });
+      }
 
       // If the user has joined e.g. chat rooms
-      // if(Array.isArray(user.rooms)) user.rooms.forEach(room => app.channel(`rooms/${room.id}`).join(connection));
-      
+      if(Array.isArray(user.rooms)) user.rooms.forEach(room => app.channel(`rooms/${room.id}`).join(connection));
+
       // Easily organize users by email and userid for things like messaging
       // app.channel(`emails/${user.email}`).join(connection);
-      // app.channel(`userIds/${user.id}`).join(connection);
+      app.channel(`userIds/${user.id}`).join(connection);
+    }
+  });
+
+  app.on('logout', (payload, { connection }) => {
+    if(connection) {
+      // Join the channels a logged out connection should be in
+      app.channel('anonymous').join(connection);
     }
   });
 
@@ -49,13 +74,22 @@ module.exports = function(app) {
 
   // Here you can also add service specific event publishers
   // e.g. the publish the `users` service `created` event to the `admins` channel
-  // app.service('users').publish('created', () => app.channel('admins'));
-  
+  app.service('users').publish('created', () => app.channel('admins'));
+
   // With the userid and email organization from above you can easily select involved users
-  // app.service('messages').publish(() => {
-  //   return [
-  //     app.channel(`userIds/${data.createdBy}`),
-  //     app.channel(`emails/${data.recipientEmail}`)
-  //   ];
-  // });
+  app.service('messages').publish('created', (data, context) => {
+    return app.channel(`rooms/${data.roomId}`);
+  });
+  app.service('notifications').publish('created', (data, context) => {
+    // console.log(data);
+    if (data.type === 'message') {
+      return app.channel(`userIds/${data.to}`);
+    } else if (data.type === 'newCv') {
+      let fieldsChannel = data.fields.map(element => app.channel(`fields/${element}`));
+      let listChannels = [...fieldsChannel, app.channel(`userIds/${data.to}`)];
+      console.log(listChannels);
+      return listChannels;
+    }
+
+  });
 };
