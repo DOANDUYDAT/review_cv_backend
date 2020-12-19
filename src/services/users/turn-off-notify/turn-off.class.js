@@ -14,17 +14,21 @@ exports.TurnOff = class TurnOff {
   async create (data, params) {
     const { userId } = data;
     const { user } = params;
-    if (user.role !== 'admin' || (user._id.toString() !== userId)) {
+    console.log(userId);
+    console.log(user);
+    if (user.role === 'admin' || (user._id.toString() === userId.toString())) {
+      const userChange = await this.app.service('users').get(userId);
+      if (!userChange) {
+        throw new NotFound('User is not exist');
+      } else {
+        await this.app.service('users').patch(userId, {
+          getEmailNotification: false
+        });
+        return this.app.service('users').get(userId, params);
+      }
+    } else {
       throw new Forbidden('Not Permission!');
     }
-    const userChange = await this.app.service('users').get(userId);
-    if (!userChange) {
-      throw new NotFound('User is not exist');
-    } else {
-      await this.app.service('users').patch(userId, {
-        getEmailNotification: false
-      });
-      return this.app.service('users').get(userId, params);
-    }
+
   }
 };

@@ -14,17 +14,18 @@ exports.TurnOnNotify = class TurnOnNotify {
   async create (data, params) {
     const { userId } = data;
     const { user } = params;
-    if (user.role !== 'admin' || (user._id.toString() !== userId)) {
-      throw new Forbidden('Not Permission!');
-    }
-    const userChange = await this.app.service('users').get(userId);
-    if (!userChange) {
-      throw new NotFound('User is not exist');
+    if (user.role === 'admin' || (user._id.toString() === userId.toString())) {
+      const userChange = await this.app.service('users').get(userId);
+      if (!userChange) {
+        throw new NotFound('User is not exist');
+      } else {
+        await this.app.service('users').patch(userId, {
+          getEmailNotification: true
+        });
+        return this.app.service('users').get(userId, params);
+      }
     } else {
-      await this.app.service('users').patch(userId, {
-        getEmailNotification: true
-      });
-      return this.app.service('users').get(userId, params);
+      throw new Forbidden('Not Permission!');
     }
   }
 };
