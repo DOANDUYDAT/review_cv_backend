@@ -4,6 +4,8 @@ const authmanagement = require('./authmanagement/authmanagement.service.js');
 const users = require('./users/users.service.js');
 const activeUser = require('./users/active/active.service');
 const deactiveUser = require('./users/deactive/deactive.service');
+const turnOffNotify = require('./users/turn-off-notify/turn-off.service');
+const turnOnNotify = require('./users/turn-on-notify/turn-on.service');
 
 const messages = require('./messages/messages.service.js');
 
@@ -54,6 +56,8 @@ module.exports = function (app) {
   app.configure(users);
   app.configure(activeUser);
   app.configure(deactiveUser);
+  app.configure(turnOffNotify);
+  app.configure(turnOnNotify);
 
   app.configure(messages);
 
