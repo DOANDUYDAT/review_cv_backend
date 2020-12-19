@@ -6,6 +6,7 @@ logs
 .env
 
 # uploads
+public/uploads/*
 uploads/*
 
 # Runtime data

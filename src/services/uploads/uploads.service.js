@@ -12,7 +12,7 @@ const fs = require('fs-blob-store');
 
 // File storage location. Folder must be created before upload.
 // Example: './uploads' will be located under feathers app top level.
-const blobStorage = fs('./uploads');
+const blobStorage = fs('./public/uploads');
 
 const multer = require('multer');
 const multipartMiddleware = multer();
