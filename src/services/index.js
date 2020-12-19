@@ -20,6 +20,7 @@ const volunteers = require('./volunteers/volunteers.service.js');
 const updateInfoVolun = require('./volunteers/update-info/update.service');
 const acceptVolun = require('./volunteers/accept/accept.service');
 const exchangePoint = require('./volunteers/exchange-point/exchange-point.service');
+const exchangeGiftVolun = require('./volunteers/exchange-gift/exchange-gift.service');
 // members
 const members = require('./members/members.service.js');
 const updateInfoMember = require('./members/update-info/update.service');
@@ -40,9 +41,9 @@ const emails = require('./emails/emails.service.js');
 
 const mysevice = require('./mysevice/mysevice.service.js');
 
-
+// gifts
 const gifts = require('./gifts/gifts.service.js');
-
+const receive = require('./gifts/receive/receive.service');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = function (app) {
@@ -68,6 +69,7 @@ module.exports = function (app) {
   app.configure(updateInfoVolun);
   app.configure(acceptVolun);
   app.configure(exchangePoint);
+  app.configure(exchangeGiftVolun);
   // members
   app.configure(members);
   app.configure(updateInfoMember);
@@ -88,4 +90,5 @@ module.exports = function (app) {
   app.configure(mysevice);
   // gifts
   app.configure(gifts);
+  app.configure(receive);
 };
