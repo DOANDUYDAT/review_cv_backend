@@ -29,10 +29,12 @@ module.exports = function(app) {
       if(user.role === 'admin') { app.channel('admins').join(connection); }
       if (user.role === 'specialist') {
         app.channel('specialists').join(connection);
-        console.log(user);
-        // user.fields.forEach(element => {
-        //   app.channel(`fields/${element}`).join(connection);
-        // });
+        // console.log(user);
+        if (Array.isArray(user.fields) && user.fields.length) {
+          user.fields.forEach(element => {
+            app.channel(`fields/${element}`).join(connection);
+          });
+        }
       }
       if (user.role === 'member') {
         app.channel('memebers').join(connection);
@@ -40,13 +42,15 @@ module.exports = function(app) {
       }
       if (user.role === 'volunteer') {
         app.channel('volunteers').join(connection);
-        user.fields.forEach(element => {
-          app.channel(`fields/${element}`).join(connection);
-        });
+        if (Array.isArray(user.fields) && user.fields.length) {
+          user.fields.forEach(element => {
+            app.channel(`fields/${element}`).join(connection);
+          });
+        }
       }
 
       // If the user has joined e.g. chat rooms
-      if(Array.isArray(user.rooms)) user.rooms.forEach(room => app.channel(`rooms/${room.id}`).join(connection));
+      if(Array.isArray(user.rooms) && user.rooms.length) user.rooms.forEach(room => app.channel(`rooms/${room.id}`).join(connection));
 
       // Easily organize users by email and userid for things like messaging
       // app.channel(`emails/${user.email}`).join(connection);
@@ -87,7 +91,7 @@ module.exports = function(app) {
     } else if (data.type === 'newCv') {
       let fieldsChannel = data.fields.map(element => app.channel(`fields/${element}`));
       let listChannels = [...fieldsChannel, app.channel(`userIds/${data.to}`)];
-      console.log(listChannels);
+      // console.log(listChannels);
       return listChannels;
     }
 
