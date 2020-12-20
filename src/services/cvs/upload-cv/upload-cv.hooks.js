@@ -1,15 +1,20 @@
-/* eslint-disable no-unused-vars */
 const { authenticate } = require('@feathersjs/authentication').hooks;
-const process = require('./hooks/process');
-const updateListcvMember = require('./hooks/update-listcv-member');
-
+const dauria = require('dauria');
 
 module.exports = {
   before: {
     all: [ authenticate('jwt') ],
     find: [],
     get: [],
-    create: [process()],
+    create: [
+      function(context) {
+        if (!context.data.uri && context.params.file){
+          const file = context.params.file;
+          const uri = dauria.getBase64DataURI(file.buffer, file.mimetype);
+          context.data = {uri: uri};
+        }
+      }
+    ],
     update: [],
     patch: [],
     remove: []
@@ -19,7 +24,7 @@ module.exports = {
     all: [],
     find: [],
     get: [],
-    create: [updateListcvMember()],
+    create: [],
     update: [],
     patch: [],
     remove: []

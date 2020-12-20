@@ -2,27 +2,46 @@
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 
-const { BadRequest } = require('@feathersjs/errors');
+const { BadRequest, Forbidden, NotFound } = require('@feathersjs/errors');
 
 module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return async context => {
-    const { data } = context;
-
+    const { data, app, params } = context;
     // The logged in user
     const { user } = context.params;
-
-    let nameCv = '';
-    let content = [];
-    if (!Array.isArray(content)) {
-      throw new BadRequest('Content of Cv must be array');
+    if (user.role !== 'member') {
+      throw new Forbidden('Not permission');
     }
-    // Update the original data (so that people can't submit additional stuff)
+    const mem = (await app.service('members').find({
+      query: {
+        userId: user._id
+      }
+    })).data[0];
+    if (!mem) {
+      throw new NotFound('Member is not exist');
+    }
+
+    let link = null;
+    if (params.file) {
+      const { id } = await app.service('cvs/upload-cv').create(data, params);
+      link = id;
+    }
+
+    let fields = [...mem.fields];
+    let type = link ? 'upload' : 'online';
     context.data = {
       // Set the user id
+      content: data.content,
+      name: data.name,
       userId: user._id,
-      // Add the current date
-      createdAt: new Date().getTime()
+      link,
+      listViewer: [user._id],
+      type,
+      fields,
+      createdAt: new Date().getTime(),
+      updatedAt: null
     };
+
 
     return context;
   };

@@ -1,15 +1,11 @@
-/* eslint-disable no-unused-vars */
 const { authenticate } = require('@feathersjs/authentication').hooks;
-const process = require('./hooks/process');
-const updateListcvMember = require('./hooks/update-listcv-member');
-
 
 module.exports = {
   before: {
     all: [ authenticate('jwt') ],
     find: [],
     get: [],
-    create: [process()],
+    create: [],
     update: [],
     patch: [],
     remove: []
@@ -19,7 +15,7 @@ module.exports = {
     all: [],
     find: [],
     get: [],
-    create: [updateListcvMember()],
+    create: [],
     update: [],
     patch: [],
     remove: []

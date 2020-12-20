@@ -18,7 +18,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       const { id } = await app.service('uploads').create(data, params);
       image = id;
     }
-    // Update the original data (so that people can't submit additional stuff)
+
     context.data = {
       // Set the user id
       quantity: data.quantity,

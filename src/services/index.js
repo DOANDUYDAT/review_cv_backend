@@ -11,7 +11,6 @@ const messages = require('./messages/messages.service.js');
 
 const notifications = require('./notifications/notifications.service.js');
 
-const cvs = require('./cvs/cvs.service.js');
 const admins = require('./admins/admins.service.js');
 // specialists
 const specialists = require('./specialists/specialists.service.js');
@@ -37,6 +36,10 @@ const dislikeAnswer = require('./answers/dislike/dislike.service');
 const acceptAnswer = require('./answers/accept/accept.service');
 // comments
 const comments = require('./comments/comments.service.js');
+// cvs
+const cvs = require('./cvs/cvs.service.js');
+const interestCv = require('./cvs/interest/interest.service');
+const uploadCv = require('./cvs/upload-cv/upload-cv.service');
 
 const uploads = require('./uploads/uploads.service.js');
 const emails = require('./emails/emails.service.js');
@@ -46,6 +49,9 @@ const mysevice = require('./mysevice/mysevice.service.js');
 // gifts
 const gifts = require('./gifts/gifts.service.js');
 const receive = require('./gifts/receive/receive.service');
+
+
+
 
 
 // eslint-disable-next-line no-unused-vars
@@ -63,7 +69,6 @@ module.exports = function (app) {
 
   app.configure(notifications);
 
-  app.configure(cvs);
   app.configure(admins);
   // specialists
   app.configure(specialists);
@@ -91,9 +96,14 @@ module.exports = function (app) {
   app.configure(acceptAnswer);
   // comments
   app.configure(comments);
+  //cvs
+  app.configure(cvs);
+  app.configure(interestCv);
+  app.configure(uploadCv);
 
   app.configure(mysevice);
   // gifts
   app.configure(gifts);
   app.configure(receive);
+
 };
