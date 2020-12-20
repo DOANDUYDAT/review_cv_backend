@@ -36,6 +36,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       userId: user._id,
       link,
       listViewer: [user._id],
+      listInterest: [],
       type,
       fields,
       createdAt: new Date().getTime(),

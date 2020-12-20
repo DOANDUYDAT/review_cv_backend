@@ -28,26 +28,26 @@ exports.Interest = class Interest {
         throw new NotFound('Specialist is not exist');
       }
       // thêm/xóa người dùng trong danh sách quan tâm cv
-      let interested = [...cv.interested];
-      const index = interested.findIndex(e => e.toString() == user._id.toString());
+      let listInterester = [...cv.listInterester];
+      const index = listInterester.findIndex(e => e.toString() == user._id.toString());
       if (index == -1) {
-        interested.push(user._id);
+        listInterester.push(user._id);
       } else {
-        interested.splice(index, 1);
+        listInterester.splice(index, 1);
       }
       await this.app.service('cvs').patch(cvId, {
-        interested
+        listInterester
       });
       // thêm/xóa cv trong danh sách cv đã quan tâm của người dùng
-      let interestedCv = [...spec.interestedCv];
-      const indexCv = interested.findIndex(e => e.toString() == cvId.toString());
+      let listInterestedCv = [...spec.listInterestedCv];
+      const indexCv = listInterestedCv.findIndex(e => e.toString() == cvId.toString());
       if (indexCv == -1) {
-        interestedCv.push(cvId);
+        listInterestedCv.push(cvId);
       } else {
-        interestedCv.splice(index, 1);
+        listInterestedCv.splice(index, 1);
       }
       await this.app.service('specialists').patch(spec._id, {
-        interestedCv
+        listInterestedCv
       });
 
       return this.app.service('cvs').get(cvId, params);

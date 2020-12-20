@@ -2,6 +2,7 @@ const { authenticate } = require('@feathersjs/authentication').hooks;
 const {
   hashPassword
 } = require('@feathersjs/authentication-local').hooks;
+const processQuery = require('./hooks/process-query');
 const { mongoKeys } = require('feathers-hooks-common');
 const { ObjectID } = require('mongodb');
 const populateUser = require('../../hooks/populate-user');
@@ -12,7 +13,7 @@ const foreignKeys = [
 module.exports = {
   before: {
     all: [],
-    find: [authenticate('jwt'), mongoKeys(ObjectID, foreignKeys) ],
+    find: [authenticate('jwt'), mongoKeys(ObjectID, foreignKeys), processQuery() ],
     get: [authenticate('jwt') ],
     create: [hashPassword('password')],
     update: [authenticate('jwt') ],
