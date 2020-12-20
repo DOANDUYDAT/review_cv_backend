@@ -54,6 +54,12 @@ const receive = require('./gifts/receive/receive.service');
 
 
 
+const reviews = require('./reviews/reviews.service.js');
+
+
+
+
+
 // eslint-disable-next-line no-unused-vars
 module.exports = function (app) {
   // manage auth
@@ -106,4 +112,5 @@ module.exports = function (app) {
   app.configure(gifts);
   app.configure(receive);
 
+  app.configure(reviews);
 };

@@ -27,7 +27,6 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       link = id;
     }
 
-    let fields = [...mem.fields];
     let type = link ? 'upload' : 'online';
     context.data = {
       // Set the user id
@@ -38,7 +37,12 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       listViewer: [user._id],
       listInterest: [],
       type,
-      fields,
+      fields: data.fields,
+      fullName: data.fullName,
+      exp: data.exp,
+      position: data.position,
+      location: data.location,
+      timeType: data.timeType,
       createdAt: new Date().getTime(),
       updatedAt: null
     };
