@@ -3,7 +3,7 @@ const { authenticate } = require('@feathersjs/authentication').hooks;
 const { mongoKeys } = require('feathers-hooks-common');
 const { ObjectID } = require('mongodb');
 const foreignKeys = [
-  '_id', 'userId'
+  '_id', 'cvId', 'userId'
 ];
 // fast join
 const { fastJoin, makeCallingParams } = require('feathers-hooks-common');
@@ -43,8 +43,8 @@ const query = {
 module.exports = {
   before: {
     all: [ authenticate('jwt') ],
-    find: [fastJoin(reviewResolvers, query)],
-    get: [fastJoin(reviewResolvers, query)],
+    find: [mongoKeys(ObjectID, foreignKeys)],
+    get: [],
     create: [],
     update: [],
     patch: [],
@@ -53,8 +53,8 @@ module.exports = {
 
   after: {
     all: [],
-    find: [],
-    get: [],
+    find: [fastJoin(reviewResolvers, query)],
+    get: [fastJoin(reviewResolvers, query)],
     create: [],
     update: [],
     patch: [],
