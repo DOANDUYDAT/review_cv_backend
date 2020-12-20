@@ -16,6 +16,7 @@ exports.Members = class Members extends Service {
   async create(data, params) {
     const userService = this.app.service('users');
     const dataAccount = {
+      fullName: data.fullName,
       userName: data.userName,
       email: data.email,
       phone: data.phone,
@@ -36,7 +37,8 @@ exports.Members = class Members extends Service {
       listCv: [],
       reputationPoint: 50,
       createdAt: new Date().getTime(),
-      updatedAt: null
+      updatedAt: null,
+      fields: []
     };
     return super.create(dataMember, params);
   }

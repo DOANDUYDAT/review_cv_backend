@@ -17,6 +17,7 @@ exports.Volunteers = class Volunteers extends Service {
   async create(data, params) {
     const userService = this.app.service('users');
     const dataAccount = {
+      fullName: data.fullName,
       userName: data.userName,
       email: data.email,
       phone: data.phone,
@@ -24,7 +25,8 @@ exports.Volunteers = class Volunteers extends Service {
       role: 'volunteer',
       isActive: true,
       getEmailNotification: true,
-      createdAt: new Date().getTime()
+      createdAt: new Date().getTime(),
+      updatedAt: null
     };
     const { _id } = await userService.create(dataAccount, {
       ...params,
@@ -37,7 +39,10 @@ exports.Volunteers = class Volunteers extends Service {
       reputationPoint: 50,
       rewardPoint: 0,
       accumulationPoint: 0,
-      createdAt: new Date().getTime()
+      listReceivedCv: [],
+      listReviewedCv: [],
+      createdAt: new Date().getTime(),
+      updatedAt: null
     };
     return super.create(dataSpecialist, params);
   }
