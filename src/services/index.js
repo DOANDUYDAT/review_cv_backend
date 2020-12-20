@@ -55,6 +55,9 @@ const reviews = require('./reviews/reviews.service.js');
 const uploadReview = require('./reviews/upload-review/upload-review.service');
 
 
+const cv = require('./cv/cv.service.js');
+
+
 // eslint-disable-next-line no-unused-vars
 module.exports = function (app) {
   // manage auth
@@ -110,4 +113,5 @@ module.exports = function (app) {
   // reviews
   app.configure(reviews);
   app.configure(uploadReview);
+  app.configure(cv);
 };
