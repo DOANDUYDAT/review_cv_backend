@@ -6,7 +6,7 @@ const updatListReview = require('./hooks/update-listreview');
 const { mongoKeys } = require('feathers-hooks-common');
 const { ObjectID } = require('mongodb');
 const foreignKeys = [
-  '_id', 'reviewId', 'userId'
+  '_id', 'cvId', 'userId'
 ];
 // fast join
 const { fastJoin, makeCallingParams } = require('feathers-hooks-common');
