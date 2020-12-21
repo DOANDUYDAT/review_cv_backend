@@ -24,6 +24,7 @@ exports.Specialists = class Specialists extends Service {
       password: data.password,
       role: 'specialist',
       isActive: true,
+      reputationPoint: 50,
       getEmailNotification: true,
       createdAt: new Date().getTime(),
       updatedAt: null
@@ -36,7 +37,6 @@ exports.Specialists = class Specialists extends Service {
       userId: _id,
       isAccept: false,
       fields: data.fields,
-      reputationPoint: 50,
       websiteCompany: data.websiteCompany,
       company: data.company,
       listInterestedCv: [],

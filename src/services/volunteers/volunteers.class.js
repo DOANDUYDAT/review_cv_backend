@@ -24,6 +24,7 @@ exports.Volunteers = class Volunteers extends Service {
       password: data.password,
       role: 'volunteer',
       isActive: true,
+      reputationPoint: 50,
       getEmailNotification: true,
       createdAt: new Date().getTime(),
       updatedAt: null
@@ -36,7 +37,6 @@ exports.Volunteers = class Volunteers extends Service {
       userId: _id,
       isAccept: false,
       fields: data.fields,
-      reputationPoint: 50,
       rewardPoint: 0,
       accumulationPoint: 0,
       listReceivedCv: [],

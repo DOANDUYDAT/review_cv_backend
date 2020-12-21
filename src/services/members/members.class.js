@@ -23,6 +23,7 @@ exports.Members = class Members extends Service {
       password: data.password,
       role: 'member',
       isActive: true,
+      reputationPoint: 50,
       getEmailNotification: true,
       createdAt: new Date().getTime(),
       updatedAt: null
@@ -35,7 +36,6 @@ exports.Members = class Members extends Service {
       userId: _id,
       isActive: true,
       listCv: [],
-      reputationPoint: 50,
       createdAt: new Date().getTime(),
       updatedAt: null,
       fields: []

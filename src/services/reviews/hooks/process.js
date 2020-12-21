@@ -41,6 +41,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         userId: user._id,
         link,
         type,
+        rating: null,
         createdAt: new Date().getTime(),
         updatedAt: null
       };
@@ -67,6 +68,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         userId: user._id,
         link,
         type,
+        rating: null,
         createdAt: new Date().getTime(),
         updatedAt: null
       };
