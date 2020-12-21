@@ -41,6 +41,7 @@ exports.Volunteers = class Volunteers extends Service {
       accumulationPoint: 0,
       listReceivedCv: [],
       listReviewedCv: [],
+      listReview: [],
       createdAt: new Date().getTime(),
       updatedAt: null
     };

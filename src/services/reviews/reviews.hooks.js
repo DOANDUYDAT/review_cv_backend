@@ -1,9 +1,12 @@
 /* eslint-disable no-unused-vars */
 const { authenticate } = require('@feathersjs/authentication').hooks;
+const process = require('./hooks/process');
+const updatListReview = require('./hooks/update-listreview');
+
 const { mongoKeys } = require('feathers-hooks-common');
 const { ObjectID } = require('mongodb');
 const foreignKeys = [
-  '_id', 'cvId', 'userId'
+  '_id', 'reviewId', 'userId'
 ];
 // fast join
 const { fastJoin, makeCallingParams } = require('feathers-hooks-common');
@@ -13,22 +16,22 @@ const { getResultsByKey, getUniqueKeys } = BatchLoader;
 
 const reviewResolvers = {
   joins: {
-    author: (...args) => async (cv, context) => {
+    author: (...args) => async (review, context) => {
       const {params} = context;
       const { user } = params;
       if (user.role === 'specialist') {
-        cv.author = (await context.app.service('specialists').find({
+        review.author = (await context.app.service('specialists').find({
           ...params,
           query: {
-            userId: cv.userId
+            userId: review.userId
           }
         })).data[0];
       }
       if (user.role === 'volunteer') {
-        cv.author = (await context.app.service('volunteers').find({
+        review.author = (await context.app.service('volunteers').find({
           ...params,
           query: {
-            userId: cv.userId
+            userId: review.userId
           }
         })).data[0];
       }
@@ -45,7 +48,7 @@ module.exports = {
     all: [ authenticate('jwt') ],
     find: [mongoKeys(ObjectID, foreignKeys)],
     get: [],
-    create: [],
+    create: [process()],
     update: [],
     patch: [],
     remove: []
@@ -55,7 +58,7 @@ module.exports = {
     all: [],
     find: [fastJoin(reviewResolvers, query)],
     get: [fastJoin(reviewResolvers, query)],
-    create: [],
+    create: [updatListReview()],
     update: [],
     patch: [],
     remove: []

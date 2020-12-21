@@ -10,6 +10,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     // The logged in user
     const { user } = context.params;
     const { cvId } = data;
+
     if (!cvId) {
       throw new BadRequest('CvId is required');
     }
@@ -33,11 +34,10 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         link = id;
       }
 
-      let fields = [...mem.fields];
       let type = link ? 'upload' : 'online';
       context.data = {
         // Set the user id
-        cvId,
+        cvId: cv._id,
         userId: user._id,
         link,
         type,
@@ -63,7 +63,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       let type = link ? 'upload' : 'online';
       context.data = {
         // Set the user id
-        cvId,
+        cvId: cv._id,
         userId: user._id,
         link,
         type,
