@@ -18,8 +18,10 @@ const reviewResolvers = {
   joins: {
     author: (...args) => async (review, context) => {
       const {params} = context;
+      // logged user
       const { user } = params;
-      if (user.role === 'specialist') {
+      const ownerReview = await context.app.service('users').get(review.userId);
+      if (ownerReview.role === 'specialist') {
         review.author = (await context.app.service('specialists').find({
           ...params,
           query: {
@@ -27,7 +29,7 @@ const reviewResolvers = {
           }
         })).data[0];
       }
-      if (user.role === 'volunteer') {
+      if (ownerReview.role === 'volunteer') {
         review.author = (await context.app.service('volunteers').find({
           ...params,
           query: {
@@ -40,8 +42,7 @@ const reviewResolvers = {
 };
 
 const query = {
-  author: true,
-  viewers: true
+  author: true
 };
 module.exports = {
   before: {
