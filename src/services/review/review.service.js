@@ -15,7 +15,7 @@ module.exports = function (app) {
     let options = {
       root: path.join(__dirname, '../../../uploads/review')
     };
-    let fileName = req.params.cvId;
+    let fileName = req.params.reviewId;
     res.sendFile(fileName, options);
   });
 };

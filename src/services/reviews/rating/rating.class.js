@@ -50,7 +50,7 @@ exports.Rating = class Rating {
       });
       // update rating cho review
       await this.app.service('reviews').patch(review._id, {
-        rating: true
+        rating: content
       });
 
       return this.app.service('reviews').get(_id, params);
