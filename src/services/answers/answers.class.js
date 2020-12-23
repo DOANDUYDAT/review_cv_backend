@@ -1,4 +1,4 @@
-const { NotFound } = require('@feathersjs/errors');
+const { NotFound, BadRequest } = require('@feathersjs/errors');
 const { Service } = require('feathers-mongodb');
 
 exports.Answers = class Answers extends Service {
@@ -20,6 +20,9 @@ exports.Answers = class Answers extends Service {
     if (!question) {
       throw new NotFound('Question is not exist');
     } else {
+      if (question.isClose) {
+        throw new BadRequest('Question is close, don\'t add answer');
+      }
       const newAnswer = await super.create(data, params);
       let listAnswers = [...question.listAnswers, newAnswer._id];
       await this.app.service('questions').patch(questionId, {

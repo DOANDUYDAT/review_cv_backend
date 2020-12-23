@@ -42,6 +42,7 @@ const interestCv = require('./cvs/interest/interest.service');
 const uploadCv = require('./cvs/upload-cv/upload-cv.service');
 const reviewCv = require('./cvs/review-cv/review-cv.service');
 const cv = require('./cv/cv.service.js');
+const publicCv = require('./cvs/public/public.service');
 
 const uploads = require('./uploads/uploads.service.js');
 const emails = require('./emails/emails.service.js');
@@ -109,6 +110,7 @@ module.exports = function (app) {
   app.configure(uploadCv);
   app.configure(reviewCv);
   app.configure(cv);
+  app.configure(publicCv);
 
   app.configure(mysevice);
   // gifts
