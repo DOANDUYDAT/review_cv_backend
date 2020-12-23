@@ -1,15 +1,11 @@
 /* eslint-disable no-unused-vars */
 const { Forbidden, NotFound } = require('@feathersjs/errors');
-const { Service } = require('feathers-mongodb');
 
-exports.Reports = class Reports extends Service {
-  constructor(options, app) {
-    super(options);
-
-    app.get('mongoClient').then(db => {
-      this.Model = db.collection('reports');
-    });
+exports.Report = class Report {
+  constructor (options) {
+    this.options = options || {};
   }
+
   setup(app) {
     this.app = (app);
   }
@@ -33,16 +29,18 @@ exports.Reports = class Reports extends Service {
         newPoint = 0;
       }
       await this.app.service('users').patch(userReview._id, {
-        reputationPoint: newPoint
+        reputationPoint: newPoint,
+      });
+      // update report cho review
+      await this.app.service('reviews').patch(review._id, {
+        report: {
+          content,
+          userId: user._id,
+          createdAt: Date.now()
+        }
       });
 
-      // lưu lại report
-      return super.create({
-        content,
-        reviewId,
-        userId: user._id,
-        createdAt: new Date().getTime()
-      });
+      return data;
     } else {
       throw new Forbidden('Not permission');
     }

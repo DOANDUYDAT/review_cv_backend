@@ -37,12 +37,20 @@ const reviewResolvers = {
           }
         })).data[0];
       }
+    },
+    rating: (...args) => async (review, context) => {
+      review.rating = await context.app.service('rates').get(review.ratingId);
+    },
+    report: (...args) => async (review, context) => {
+      review.report = await context.app.service('reports').get(review.reportId);
     }
   }
 };
 
 const query = {
-  author: true
+  author: true,
+  rating: true,
+  report: true
 };
 module.exports = {
   before: {

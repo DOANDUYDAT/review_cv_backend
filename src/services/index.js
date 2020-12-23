@@ -54,10 +54,11 @@ const receive = require('./gifts/receive/receive.service');
 // reviews
 const reviews = require('./reviews/reviews.service.js');
 const uploadReview = require('./reviews/upload-review/upload-review.service');
-const ratingReview = require('./reviews/rating/rating.service');
 const review = require('./review/review.service.js');
+const reportReview = require('./reviews/report/report.service');
+const rateReview = require('./reviews/rate/rate.service');
 
-const reports = require('./reports/reports.service.js');
+
 
 
 // eslint-disable-next-line no-unused-vars
@@ -116,8 +117,7 @@ module.exports = function (app) {
   // reviews
   app.configure(reviews);
   app.configure(uploadReview);
-  app.configure(ratingReview);
   app.configure(review);
-
-  app.configure(reports);
+  app.configure(reportReview);
+  app.configure(rateReview);
 };

@@ -1,7 +1,6 @@
 const { NotFound, Forbidden, BadRequest } = require('@feathersjs/errors');
 
-/* eslint-disable no-unused-vars */
-exports.Rating = class Rating {
+exports.Rate = class Rate {
   constructor (options) {
     this.options = options || {};
   }
@@ -50,10 +49,15 @@ exports.Rating = class Rating {
       });
       // update rating cho review
       await this.app.service('reviews').patch(review._id, {
-        rating: content
+        rating: {
+          content,
+          userId: user._id,
+          createdAt: Date.now()
+        }
       });
 
-      return this.app.service('reviews').get(_id, params);
+      return data;
+
     } else {
       throw new Forbidden('Not permission');
     }
