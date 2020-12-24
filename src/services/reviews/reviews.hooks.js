@@ -2,7 +2,7 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 const process = require('./hooks/process');
 const updatListReview = require('./hooks/update-listreview');
-
+const commonHooks = require('feathers-hooks-common');
 const { mongoKeys } = require('feathers-hooks-common');
 const { ObjectID } = require('mongodb');
 const foreignKeys = [
@@ -68,8 +68,8 @@ module.exports = {
     find: [mongoKeys(ObjectID, foreignKeys)],
     get: [],
     create: [process()],
-    update: [],
-    patch: [],
+    update: [commonHooks.disallow('external')],
+    patch: [commonHooks.disallow('external')],
     remove: []
   },
 

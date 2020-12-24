@@ -40,7 +40,7 @@ exports.Report = class Report {
         }
       });
 
-      return data;
+      return this.app.service('reviews').get(review._id, params);
     } else {
       throw new Forbidden('Not permission');
     }
