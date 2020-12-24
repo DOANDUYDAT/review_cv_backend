@@ -37,30 +37,12 @@ const reviewResolvers = {
           }
         })).data[0];
       }
-    },
-    rating: (...args) => async (review, context) => {
-      if (review.ratingId) {
-        review.rating = await context.app.service('rates').get(review.ratingId);
-      } else {
-        review.rating = null;
-      }
-
-    },
-    report: (...args) => async (review, context) => {
-      if (review.reportId) {
-        review.report = await context.app.service('reports').get(review.reportId);
-      } else {
-        review.report = null;
-      }
-
     }
   }
 };
 
 const query = {
-  author: true,
-  rating: true,
-  report: true
+  author: true
 };
 module.exports = {
   before: {
