@@ -39,10 +39,20 @@ const reviewResolvers = {
       }
     },
     rating: (...args) => async (review, context) => {
-      review.rating = await context.app.service('rates').get(review.ratingId);
+      if (review.ratingId) {
+        review.rating = await context.app.service('rates').get(review.ratingId);
+      } else {
+        review.rating = null;
+      }
+
     },
     report: (...args) => async (review, context) => {
-      review.report = await context.app.service('reports').get(review.reportId);
+      if (review.reportId) {
+        review.report = await context.app.service('reports').get(review.reportId);
+      } else {
+        review.report = null;
+      }
+
     }
   }
 };
