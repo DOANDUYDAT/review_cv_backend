@@ -9,7 +9,16 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     const { data, result, app, params } = context;
     // logged user
     const { user } = params;
+    const { cvId } = data;
+    // update listReview cho cv
+    const cv = await app.service('cvs').get(cvId);
+    let listReviewOfCv = cv.listReview;
+    listReviewOfCv.push(result._id);
+    await app.service('cvs').patch(cvId, {
+      listReview: listReviewOfCv
+    });
 
+    // update listReview, listReviewedCv cho volunteer, specialist
     if (user.role === 'specialist') {
       const mem = (await app.service('specialists').find({
         query: {
@@ -17,10 +26,12 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         }
       })).data[0];
 
-      let { listReview } = mem;
+      let { listReview, listReviewedCv } = mem;
       listReview.push(result._id);
+      listReviewedCv.push(cvId);
       await app.service('specialists').patch(mem._id, {
-        listReview
+        listReview,
+        listReviewedCv
       });
     }
     if (user.role === 'volunteer') {
@@ -30,10 +41,12 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         }
       })).data[0];
 
-      let { listReview } = mem;
+      let { listReview, listReviewedCv } = mem;
       listReview.push(result._id);
+      listReviewedCv.push(cvId);
       await app.service('volunteers').patch(mem._id, {
-        listReview
+        listReview,
+        listReviewedCv
       });
     }
 

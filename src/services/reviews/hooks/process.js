@@ -42,6 +42,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         link,
         type,
         rating: null,
+        report: null,
         createdAt: new Date().getTime(),
         updatedAt: null
       };
@@ -69,6 +70,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         link,
         type,
         rating: null,
+        report: null,
         createdAt: new Date().getTime(),
         updatedAt: null
       };
