@@ -13,6 +13,19 @@ const { fastJoin, makeCallingParams } = require('feathers-hooks-common');
 const BatchLoader = require('@feathers-plus/batch-loader');
 const { getResultsByKey, getUniqueKeys } = BatchLoader;
 
+const cvResolvers = {
+  joins: {
+    author: (...args) => async (cv, context) => {
+      const {params} = context;
+      cv.author = (await context.app.service('members').find({
+        ...params,
+        query: {
+          userId: cv.userId
+        }
+      })).data[0];
+    }
+  }
+};
 
 const reviewResolvers = {
   joins: {
@@ -37,12 +50,22 @@ const reviewResolvers = {
           }
         })).data[0];
       }
+    },
+    cv: {
+      resolver: (...args) => async (review, context) => {
+        review.cv = await context.app.service('cvs').get(review.cvId);
+        return review.cv;
+      },
+      joins: cvResolvers
     }
   }
 };
 
 const query = {
-  author: true
+  author: true,
+  cv: {
+    author: true
+  }
 };
 module.exports = {
   before: {

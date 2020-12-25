@@ -2,6 +2,7 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 const process = require('./hooks/process');
 const updateListcvMember = require('./hooks/update-listcv-member');
+const commonHooks = require('feathers-hooks-common');
 const { mongoKeys } = require('feathers-hooks-common');
 const { ObjectID } = require('mongodb');
 const foreignKeys = [
@@ -17,7 +18,6 @@ const cvResolvers = {
   joins: {
     author: (...args) => async (cv, context) => {
       const {params} = context;
-
       cv.author = (await context.app.service('members').find({
         ...params,
         query: {
@@ -60,8 +60,8 @@ module.exports = {
 
   after: {
     all: [],
-    find: [fastJoin(cvResolvers, query)],
-    get: [fastJoin(cvResolvers, query)],
+    find: [commonHooks.iff(commonHooks.isProvider('external'), fastJoin(cvResolvers))],
+    get: [commonHooks.iff(commonHooks.isProvider('external'), fastJoin(cvResolvers))],
     create: [updateListcvMember()],
     update: [],
     patch: [],
