@@ -15,12 +15,11 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     }
     let image = null;
     if (params.file) {
-      const { id } = await app.service('uploads').create(data, params);
+      const { id } = await app.service('gifts/upload-gift').create(data, params);
       image = id;
     }
 
     context.data = {
-      // Set the user id
       quantity: data.quantity,
       name: data.name,
       value: data.value,

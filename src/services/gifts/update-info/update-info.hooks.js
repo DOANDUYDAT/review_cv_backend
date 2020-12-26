@@ -1,19 +1,14 @@
-/* eslint-disable no-unused-vars */
 const { authenticate } = require('@feathersjs/authentication').hooks;
-const validation = require('./hooks/validation');
-const process = require('./hooks/process');
-const dauria = require('dauria');
-const processUpdate = require('./hooks/process-update');
-const commonHooks = require('feathers-hooks-common');
+const validation = require('../hooks/validation');
 
 module.exports = {
   before: {
     all: [ authenticate('jwt') ],
     find: [],
     get: [],
-    create: [validation(), process()],
-    update: [commonHooks.disallow('external')],
-    patch: [commonHooks.disallow('external')],
+    create: [validation()],
+    update: [],
+    patch: [],
     remove: []
   },
 

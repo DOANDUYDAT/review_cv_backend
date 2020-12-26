@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 // Initializes the `uploads` service on path `/uploads`
-const hooks = require('./uploads.hooks');
+const hooks = require('./upload-gift.hooks');
 
 // feathers-blob service
 const blobService = require('feathers-blob');
@@ -21,7 +21,7 @@ const multipartMiddleware = multer();
 module.exports = function (app) {
   // Initialize our service with any options it requires
   // app.use('/uploads', new Uploads(options, app));
-  app.use('/uploads',
+  app.use('gifts/upload-gift',
 
     // multer parses the file named 'uri'.
     // Without extra params the data is
@@ -38,7 +38,7 @@ module.exports = function (app) {
   );
 
   // Get our initialized service so that we can register hooks
-  const service = app.service('uploads');
+  const service = app.service('gifts/upload-gift');
 
   service.hooks(hooks);
 };

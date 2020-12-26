@@ -1,17 +1,21 @@
 /* eslint-disable no-unused-vars */
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
-const { BadRequest, Forbidden } = require('@feathersjs/errors');
+const { BadRequest, Forbidden, NotFound } = require('@feathersjs/errors');
 const commonHooks = require('feathers-hooks-common');
 
 module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return async context => {
     const { data, params, app } = context;
 
+    const gift = app.service('gifts').get(context.id);
+    if (!gift) {
+      throw new NotFound('Gift is not exist');
+    }
     // logged user
     const { user } = params;
     if ((user && user.role === 'admin') || !params.provider) {
-      let image = null;
+      let image = gift.image;
       if (params.file) {
         const { id } = await app.service('uploads').create(data, params);
         image = id;

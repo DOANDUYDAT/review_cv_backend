@@ -41,7 +41,6 @@ exports.Specialists = class Specialists extends Service {
       company: data.company,
       listInterestedCv: [],
       listReceivedCv: [],
-      listReviewedCv: [],
       listReview: [],
       createdAt: new Date().getTime(),
       updatedAt: null

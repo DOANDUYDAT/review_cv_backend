@@ -18,7 +18,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       listReview: listReviewOfCv
     });
 
-    // update listReview, listReviewedCv cho volunteer, specialist
+    // update listReview, listReceivedCv cho volunteer, specialist
     if (user.role === 'specialist') {
       const mem = (await app.service('specialists').find({
         query: {
@@ -26,12 +26,12 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         }
       })).data[0];
 
-      let { listReview, listReviewedCv } = mem;
+      let { listReview, listReceivedCv } = mem;
       listReview.push(result._id);
-      listReviewedCv.push(cvId);
+      let newListReceivedCv = listReceivedCv.filter(e => e.toString() != cvId);
       await app.service('specialists').patch(mem._id, {
         listReview,
-        listReviewedCv
+        listReceivedCv: newListReceivedCv
       });
     }
     if (user.role === 'volunteer') {
@@ -41,12 +41,12 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         }
       })).data[0];
 
-      let { listReview, listReviewedCv } = mem;
+      let { listReview, listReceivedCv } = mem;
       listReview.push(result._id);
-      listReviewedCv.push(cvId);
+      let newListReceivedCv = listReceivedCv.filter(e => e.toString() != cvId);
       await app.service('volunteers').patch(mem._id, {
         listReview,
-        listReviewedCv
+        listReceivedCv: newListReceivedCv
       });
     }
 

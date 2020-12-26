@@ -36,7 +36,6 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
 
       let type = link ? 'upload' : 'online';
       context.data = {
-        // Set the user id
         cvId: cv._id,
         userId: user._id,
         link,

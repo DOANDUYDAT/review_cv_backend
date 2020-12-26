@@ -40,7 +40,6 @@ exports.Volunteers = class Volunteers extends Service {
       rewardPoint: 0,
       accumulationPoint: 0,
       listReceivedCv: [],
-      listReviewedCv: [],
       listReview: [],
       createdAt: new Date().getTime(),
       updatedAt: null

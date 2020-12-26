@@ -44,14 +44,16 @@ const reviewCv = require('./cvs/review-cv/review-cv.service');
 const cv = require('./cv/cv.service.js');
 const publicCv = require('./cvs/public/public.service');
 
-const uploads = require('./uploads/uploads.service.js');
+
 const emails = require('./emails/emails.service.js');
 
 const mysevice = require('./mysevice/mysevice.service.js');
 
 // gifts
 const gifts = require('./gifts/gifts.service.js');
+const updateGift = require('./gifts/update-info/update-info.service');
 const receive = require('./gifts/receive/receive.service');
+const uploadGift = require('./gifts/upload-gift/upload-gift.service.js');
 // reviews
 const reviews = require('./reviews/reviews.service.js');
 const uploadReview = require('./reviews/upload-review/upload-review.service');
@@ -91,7 +93,7 @@ module.exports = function (app) {
   // members
   app.configure(members);
   app.configure(updateInfoMember);
-  app.configure(uploads);
+
   app.configure(emails);
   // questions
   app.configure(questions);
@@ -115,7 +117,10 @@ module.exports = function (app) {
   app.configure(mysevice);
   // gifts
   app.configure(gifts);
+  app.configure(uploadGift);
   app.configure(receive);
+  app.configure(updateGift);
+
   // reviews
   app.configure(reviews);
   app.configure(uploadReview);
