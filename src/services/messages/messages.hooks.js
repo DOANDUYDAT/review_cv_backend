@@ -3,11 +3,11 @@ const { authenticate } = require('@feathersjs/authentication').hooks;
 const { mongoKeys } = require('feathers-hooks-common');
 const { ObjectID } = require('mongodb');
 
-const validateMessage = require('../../hooks/validation/message');
+const process = require('./hooks/process');
 const populateUser = require('../../hooks/populate-user');
 
 const foreignKeys = [
-  '_id', 'userId'
+  '_id', 'roomId', 'userId'
 ];
 
 module.exports = {
@@ -15,9 +15,9 @@ module.exports = {
     all: [authenticate('jwt')],
     find: [mongoKeys(ObjectID, foreignKeys)],
     get: [],
-    create: [validateMessage()],
-    update: [validateMessage()],
-    patch: [validateMessage()],
+    create: [process()],
+    update: [],
+    patch: [],
     remove: []
   },
 

@@ -34,12 +34,19 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         link = id;
       }
 
+      // tạo room chat với chủ cv
+      const room = await app.service('rooms').create({
+        listMember: [user._id, cv.userId ],
+        createdAt: Date.now()
+      });
+
       let type = link ? 'upload' : 'online';
       context.data = {
         cvId: cv._id,
         userId: user._id,
         link,
         type,
+        roomId: room._id,
         rating: null,
         report: null,
         createdAt: new Date().getTime(),
@@ -61,6 +68,12 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         link = id;
       }
 
+      // tạo room chat với chủ cv
+      const room = await app.service('rooms').create({
+        listMember: [user._id, cv.userId ],
+        createdAt: Date.now()
+      });
+
       let type = link ? 'upload' : 'online';
       context.data = {
         // Set the user id
@@ -68,6 +81,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         userId: user._id,
         link,
         type,
+        roomId: room._id,
         rating: null,
         report: null,
         createdAt: new Date().getTime(),

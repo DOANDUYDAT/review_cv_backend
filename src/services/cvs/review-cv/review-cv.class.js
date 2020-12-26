@@ -25,7 +25,10 @@ exports.Interest = class Interest {
         }
       })).data[0];
       let { listReceivedCv } = mem;
-      listReceivedCv.push(cvId);
+      listReceivedCv.push({
+        cvId,
+        createdAt: Date.now()
+      });
       await this.app.service('specialists').patch(mem._id, {
         listReceivedCv
       });
@@ -38,7 +41,10 @@ exports.Interest = class Interest {
         }
       })).data[0];
       let { listReceivedCv } = mem;
-      listReceivedCv.push(cvId);
+      listReceivedCv.push({
+        cvId,
+        createdAt: Date.now()
+      });
       await this.app.service('volunteers').patch(mem._id, {
         listReceivedCv
       });

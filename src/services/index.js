@@ -64,6 +64,11 @@ const rateReview = require('./reviews/rate/rate.service');
 
 
 
+const rooms = require('./rooms/rooms.service.js');
+
+
+
+
 // eslint-disable-next-line no-unused-vars
 module.exports = function (app) {
   // manage auth
@@ -127,4 +132,5 @@ module.exports = function (app) {
   app.configure(review);
   app.configure(reportReview);
   app.configure(rateReview);
+  app.configure(rooms);
 };

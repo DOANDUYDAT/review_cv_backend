@@ -28,7 +28,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
 
       let { listReview, listReceivedCv } = mem;
       listReview.push(result._id);
-      let newListReceivedCv = listReceivedCv.filter(e => e.toString() != cvId);
+      let newListReceivedCv = listReceivedCv.filter(e => e.cvId.toString() != cvId);
       await app.service('specialists').patch(mem._id, {
         listReview,
         listReceivedCv: newListReceivedCv
@@ -43,7 +43,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
 
       let { listReview, listReceivedCv } = mem;
       listReview.push(result._id);
-      let newListReceivedCv = listReceivedCv.filter(e => e.toString() != cvId);
+      let newListReceivedCv = listReceivedCv.filter(e => e.cvId.toString() != cvId);
       await app.service('volunteers').patch(mem._id, {
         listReview,
         listReceivedCv: newListReceivedCv
