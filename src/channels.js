@@ -48,13 +48,12 @@ module.exports = function(app) {
           });
         }
       }
-
       // If the user has joined e.g. chat rooms
-      if(Array.isArray(user.rooms) && user.rooms.length) user.rooms.forEach(room => app.channel(`rooms/${room.id}`).join(connection));
+      if(Array.isArray(user.rooms) && user.rooms.length) user.rooms.forEach(room => app.channel(`rooms/${room.toString()}`).join(connection));
 
       // Easily organize users by email and userid for things like messaging
       // app.channel(`emails/${user.email}`).join(connection);
-      app.channel(`userIds/${user.id}`).join(connection);
+      app.channel(`userIds/${user._id.toString()}`).join(connection);
     }
   });
 
@@ -82,18 +81,18 @@ module.exports = function(app) {
 
   // With the userid and email organization from above you can easily select involved users
   app.service('messages').publish('created', (data, context) => {
-    return app.channel(`rooms/${data.roomId}`);
+    return app.channel(`rooms/${data.roomId.toString()}`);
   });
-  app.service('notifications').publish('created', (data, context) => {
-    // console.log(data);
-    if (data.type === 'message') {
-      return app.channel(`userIds/${data.to}`);
-    } else if (data.type === 'newCv') {
-      let fieldsChannel = data.fields.map(element => app.channel(`fields/${element}`));
-      let listChannels = [...fieldsChannel, app.channel(`userIds/${data.to}`)];
-      // console.log(listChannels);
-      return listChannels;
-    }
+  // app.service('notifications').publish('created', (data, context) => {
+  //   // console.log(data);
+  //   if (data.type === 'message') {
+  //     return app.channel(`userIds/${data.to.toString()}`);
+  //   } else if (data.type === 'newCv') {
+  //     let fieldsChannel = data.fields.map(element => app.channel(`fields/${element}`));
+  //     let listChannels = [...fieldsChannel, app.channel(`userIds/${data.to.toString()}`)];
+  //     // console.log(listChannels);
+  //     return listChannels;
+  //   }
 
-  });
+  // });
 };

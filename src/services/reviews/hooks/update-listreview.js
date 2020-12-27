@@ -28,10 +28,12 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
 
       let { listReview, listReceivedCv } = mem;
       listReview.push(result._id);
-      let newListReceivedCv = listReceivedCv.filter(e => e.cvId.toString() != cvId);
+      // thay đổi cv đã nhận sang trạng thái đã đc review
+      let receivedCv = listReceivedCv.find(e => e.cvId.toString() == cvId);
+      receivedCv.isReviewed = true;
       await app.service('specialists').patch(mem._id, {
         listReview,
-        listReceivedCv: newListReceivedCv
+        listReceivedCv
       });
     }
     if (user.role === 'volunteer') {
@@ -43,10 +45,12 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
 
       let { listReview, listReceivedCv } = mem;
       listReview.push(result._id);
-      let newListReceivedCv = listReceivedCv.filter(e => e.cvId.toString() != cvId);
+      // thay đổi cv đã nhận sang trạng thái đã đc review
+      let receivedCv = listReceivedCv.find(e => e.cvId.toString() == cvId);
+      receivedCv.isReviewed = true;
       await app.service('volunteers').patch(mem._id, {
         listReview,
-        listReceivedCv: newListReceivedCv
+        listReceivedCv
       });
     }
 

@@ -27,6 +27,7 @@ exports.Interest = class Interest {
       let { listReceivedCv } = mem;
       listReceivedCv.push({
         cvId,
+        isReviewed: false,
         createdAt: Date.now()
       });
       await this.app.service('specialists').patch(mem._id, {
@@ -43,6 +44,7 @@ exports.Interest = class Interest {
       let { listReceivedCv } = mem;
       listReceivedCv.push({
         cvId,
+        isReviewed: false,
         createdAt: Date.now()
       });
       await this.app.service('volunteers').patch(mem._id, {

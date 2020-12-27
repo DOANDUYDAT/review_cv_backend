@@ -18,13 +18,14 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     if (!room) {
       throw new NotFound('Room is not exist');
     }
-    if (!room.includes(user._id)) {
+    const isInRoom = room.listMember.find(e => e.toString() === user._id.toString());
+    if (!isInRoom) {
       throw new NotFound('Not permission. You are not in the room');
     }
     context.data = {
       content: data.content,
       userId: user._id,
-      roomId: data.roomId,
+      roomId: room._id,
       // Add the current date
       createdAt: Date.now()
     };

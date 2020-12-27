@@ -2,6 +2,7 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 const process = require('./hooks/process');
 const updatListReview = require('./hooks/update-listreview');
+const updateRoom = require('./hooks/update-room');
 const commonHooks = require('feathers-hooks-common');
 const { mongoKeys } = require('feathers-hooks-common');
 const { ObjectID } = require('mongodb');
@@ -82,7 +83,7 @@ module.exports = {
     all: [],
     find: [fastJoin(reviewResolvers, query)],
     get: [fastJoin(reviewResolvers, query)],
-    create: [updatListReview()],
+    create: [updatListReview(), updateRoom()],
     update: [],
     patch: [],
     remove: []
