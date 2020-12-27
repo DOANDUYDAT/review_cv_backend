@@ -4,7 +4,7 @@ const commonHooks = require('feathers-hooks-common');
 const { mongoKeys } = require('feathers-hooks-common');
 const { ObjectID } = require('mongodb');
 const foreignKeys = [
-  '_id', 'cvId', 'userId'
+  '_id', 'to', 'from'
 ];
 // fast join
 const { fastJoin, makeCallingParams } = require('feathers-hooks-common');
@@ -34,7 +34,7 @@ const query = {
 module.exports = {
   before: {
     all: [ authenticate('jwt') ],
-    find: [],
+    find: [mongoKeys(ObjectID, foreignKeys)],
     get: [],
     create: [],
     update: [],
