@@ -112,15 +112,17 @@ module.exports = function(app) {
   app.service('messages').publish('created', (data, context) => {
     return app.channel(`rooms/${data.roomId.toString()}`);
   });
-  // app.service('notifications').publish('created', (data, context) => {
-  //   // console.log(data);
-  //   if (data.type === 'message') {
-  //     return app.channel(`userIds/${data.to.toString()}`);
-  //   } else if (data.type === 'newCv') {
-  //     let fieldsChannel = data.fields.map(element => app.channel(`fields/${element}`));
-  //     let listChannels = [...fieldsChannel, app.channel(`userIds/${data.to.toString()}`)];
-  //     // console.log(listChannels);
-  //     return listChannels;
-  //   }
-  // });
+  app.service('notifications').publish('created', (data, context) => {
+    // console.log(data);
+    if (data.type === 'message') {
+      return app.channel(`userIds/${data.to.toString()}`);
+    } else if (data.type === 'newCv') {
+      let fieldsChannel = data.fields.map(element => app.channel(`fields/${element}`));
+      let listChannels = [...fieldsChannel, app.channel(`userIds/${data.to.toString()}`)];
+      // console.log(listChannels);
+      return listChannels;
+    } else if (data.type === 'interestCv') {
+      return app.channel(`userIds/${data.to.toString()}`);
+    }
+  });
 };
