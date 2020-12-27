@@ -15,16 +15,12 @@ const { getResultsByKey, getUniqueKeys } = BatchLoader;
 const notifyResolvers = {
   joins: {
     fromUser: (...args) => async (notify, context) => {
+      // console.log(notify.from);
       if (notify.from) {
         const {params} = context;
-        // logged user
-        const { user } = params;
-        const spec = (await context.app.service('specialists').find({
-          query: {
-            userId: notify.from
-          }
-        })).data[0];
-        notify.fromUser = spec;
+        const mem = await context.app.service('users').get(notify.from);
+
+        notify.fromUser = mem;
       } else {
         notify.fromUser = null;
       }
@@ -48,8 +44,8 @@ module.exports = {
 
   after: {
     all: [],
-    find: [],
-    get: [],
+    find: [fastJoin(notifyResolvers, query)],
+    get: [fastJoin(notifyResolvers, query)],
     create: [fastJoin(notifyResolvers, query)],
     update: [],
     patch: [],

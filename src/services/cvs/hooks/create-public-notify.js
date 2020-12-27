@@ -3,26 +3,21 @@
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 
 const { BadRequest } = require('@feathersjs/errors');
+const { ObjectID } = require('mongodb');
 
 module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return async context => {
     const { data, result, app, params } = context;
     // logged user
     const { user } = params;
-    const { cvId } = data;
-    const cv = await this.app.service('cvs').get(cvId);
-    const spec = (await this.app.service('specialists').find({
-      query: {
-        userId: user._id
-      }
-    })).data[0];
+    const { toUserId } = data;
 
     // create new notification
     await app.service('notifications').create({
-      type: 'interestCv',
-      from: spec._id,
-      to: cv.userId,
-      cvId: cv._id
+      type: 'publicCv',
+      from: new ObjectID(user._id),
+      cvId: result._id,
+      to: new ObjectID(toUserId)
     });
     return context;
   };

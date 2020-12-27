@@ -118,10 +118,14 @@ module.exports = function(app) {
       return app.channel(`userIds/${data.to.toString()}`);
     } else if (data.type === 'newCv') {
       let fieldsChannel = data.fields.map(element => app.channel(`fields/${element}`));
-      let listChannels = [...fieldsChannel, app.channel(`userIds/${data.to.toString()}`)];
+      let listChannels = [...fieldsChannel];
       // console.log(listChannels);
       return listChannels;
     } else if (data.type === 'interestCv') {
+      return app.channel(`userIds/${data.to.toString()}`);
+    } else if ( data.type === 'publicCv') {
+      return app.channel(`userIds/${data.to.toString()}`);
+    } else if (data.type === 'newReview') {
       return app.channel(`userIds/${data.to.toString()}`);
     }
   });

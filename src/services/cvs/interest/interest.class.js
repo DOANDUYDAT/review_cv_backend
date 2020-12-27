@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 const { NotFound, Forbidden } = require('@feathersjs/errors');
-
+const { ObjectID } = require('mongodb');
 /* eslint-disable no-unused-vars */
 exports.Interest = class Interest {
   constructor (options) {
@@ -48,6 +48,13 @@ exports.Interest = class Interest {
       }
       await this.app.service('specialists').patch(spec._id, {
         listInterestedCv
+      });
+
+      await this.app.service('notifications').create({
+        type: 'interestCv',
+        from: new ObjectID(user._id),
+        to: cv.userId,
+        cvId: cv._id
       });
 
       return this.app.service('cvs').get(cvId, params);

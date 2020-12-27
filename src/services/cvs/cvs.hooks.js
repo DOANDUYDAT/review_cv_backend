@@ -2,6 +2,8 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 const process = require('./hooks/process');
 const updateListcvMember = require('./hooks/update-listcv-member');
+const createNewNotification = require('./hooks/create-newCv-notify');
+
 const commonHooks = require('feathers-hooks-common');
 const { mongoKeys } = require('feathers-hooks-common');
 const { ObjectID } = require('mongodb');
@@ -62,7 +64,7 @@ module.exports = {
     all: [],
     find: [commonHooks.iff(commonHooks.isProvider('external'), fastJoin(cvResolvers))],
     get: [commonHooks.iff(commonHooks.isProvider('external'), fastJoin(cvResolvers))],
-    create: [updateListcvMember()],
+    create: [updateListcvMember(), createNewNotification()],
     update: [],
     patch: [],
     remove: []

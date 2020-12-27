@@ -13,9 +13,9 @@ server.on('listening', () =>
 );
 
 
-const messages = app.service('specialists');
-// messages.create({
-//   text: 'updated message'
-// });
+// const messages = app.service('specialists');
+// // messages.create({
+// //   text: 'updated message'
+// // });
 
-messages.on('patched', message => console.log('patched', message));
+// messages.on('patched', message => console.log('patched', message));
