@@ -9,9 +9,10 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     const { data, params, app, result } = context;
 
     if (result.type === 'newCv') {
+      const cv = await app.service('cvs').get(result.cvId);
       app.service('users').find({
         query: {
-          fields: result.field
+          fields: cv.field
         }
       }).then( ({data}) => {
         for (let i = 0; i < data.length; i++) {
