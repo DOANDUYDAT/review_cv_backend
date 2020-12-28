@@ -19,28 +19,47 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
           fields: cv.field
         }
       }).then( ({data}) => {
+
         let email = null;
         for (let i = 0; i < data.length; i++) {
           if (data[i].role === 'specialist') {
-            linkCv += `volunteerHome/view-cv/${cv._id}`.toString();
-          } else if (data[i].role === 'volunteer') {
             linkCv += `specialistHome/view-cv/${cv._id}`.toString();
+            email = {
+              from: process.env.GMAIL,
+              to: data[i].email,
+              subject: 'New Cv in review-cv.com.vn',
+              html:
+              `
+              <p>
+                Có một CV mới được tải lên thuộc lĩnh vực ${cv.field} mà bạn quan tâm.
+              </p>
+              <p>
+                Xem thông tin chi tiết tại: ${linkCv}
+              </p>
+              `
+            };
+            app.service('emails').create(email);
+          } else if (data[i].role === 'volunteer') {
+            linkCv += `volunteerHome/view-cv/${cv._id}`.toString();
+            email = {
+              from: process.env.GMAIL,
+              to: data[i].email,
+              subject: 'New Cv in review-cv.com.vn',
+              html:
+              `
+              <p>
+                Có một CV mới được tải lên thuộc lĩnh vực ${cv.field} mà bạn quan tâm.
+              </p>
+              <p>
+                Xem thông tin chi tiết tại: ${linkCv}
+              </p>
+              `
+            };
+            app.service('emails').create(email);
+          } else {
+            console.log('Not send mail newCv for member or admin');
           }
-          email = {
-            from: process.env.GMAIL,
-            to: data[i].email,
-            subject: 'New Cv in review-cv.com.vn',
-            html:
-            `
-            <p>
-              Có một CV mới được tải lên thuộc lĩnh vực ${cv.field} mà bạn quan tâm.
-            </p>
-            <p>
-              Xem thông tin chi tiết tại: ${linkCv}
-            </p>
-            `
-          };
-          app.service('emails').create(email);
+
         }
       });
 

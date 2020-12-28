@@ -15,11 +15,13 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         }
       }).then( ({data}) => {
         for (let i = 0; i < data.length; i++) {
-          let { listNotifications } = data[i];
-          listNotifications.push(result._id);
-          app.service('users').patch(data[i]._id, {
-            listNotifications
-          });
+          if (data[i].role === 'specialist' || data[i].role === 'volunteer') {
+            let { listNotifications } = data[i];
+            listNotifications.push(result._id);
+            app.service('users').patch(data[i]._id, {
+              listNotifications
+            });
+          }
         }
       });
     } else if (result.type === 'interestCv' || result.type === 'publicCv' || result.type === 'newReview') {
