@@ -112,15 +112,13 @@ module.exports = function(app) {
   app.service('messages').publish('created', (data, context) => {
     return app.channel(`rooms/${data.roomId.toString()}`);
   });
-  app.service('notifications').publish('created', (data, context) => {
+  app.service('notifications').publish('created', async (data, context) => {
     // if (data.type === 'message') {
     //   return app.channel(`userIds/${data.to.toString()}`);
     // }
     if (data.type === 'newCv') {
-      let fieldsChannel = data.fields.map(element => app.channel(`fields/${element}`));
-      let listChannels = [...fieldsChannel];
-      // console.log(listChannels);
-      return listChannels;
+      const cv = await app.service('cvs').get(data.cvId);
+      return app.channel(`fields/${cv.field}`);
     } else if (data.type === 'interestCv' || data.type === 'publicCv' || data.type === 'newReview') {
       return app.channel(`userIds/${data.to.toString()}`);
     }
