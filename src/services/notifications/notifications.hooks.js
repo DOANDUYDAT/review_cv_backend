@@ -1,5 +1,8 @@
 /* eslint-disable no-unused-vars */
 const { authenticate } = require('@feathersjs/authentication').hooks;
+const sendMail = require('./hooks/send-mail');
+const updateNotify = require('./hooks/update-notify-user');
+
 const commonHooks = require('feathers-hooks-common');
 const { mongoKeys } = require('feathers-hooks-common');
 const { ObjectID } = require('mongodb');
@@ -46,7 +49,7 @@ module.exports = {
     all: [],
     find: [fastJoin(notifyResolvers, query)],
     get: [fastJoin(notifyResolvers, query)],
-    create: [fastJoin(notifyResolvers, query)],
+    create: [fastJoin(notifyResolvers, query), updateNotify(), sendMail()],
     update: [],
     patch: [],
     remove: []

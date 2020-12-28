@@ -113,10 +113,10 @@ module.exports = function(app) {
     return app.channel(`rooms/${data.roomId.toString()}`);
   });
   app.service('notifications').publish('created', (data, context) => {
-    // console.log(data);
-    if (data.type === 'message') {
-      return app.channel(`userIds/${data.to.toString()}`);
-    } else if (data.type === 'newCv') {
+    // if (data.type === 'message') {
+    //   return app.channel(`userIds/${data.to.toString()}`);
+    // }
+    if (data.type === 'newCv') {
       let fieldsChannel = data.fields.map(element => app.channel(`fields/${element}`));
       let listChannels = [...fieldsChannel];
       // console.log(listChannels);

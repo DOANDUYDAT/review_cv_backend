@@ -22,6 +22,7 @@ exports.Specialists = class Specialists extends Service {
       email: data.email,
       phone: data.phone,
       password: data.password,
+      fields: data.fields,
       role: 'specialist',
       rooms: [],
       listNotifications: [],
@@ -38,7 +39,6 @@ exports.Specialists = class Specialists extends Service {
     const dataSpecialist = {
       userId: _id,
       isAccept: false,
-      fields: data.fields,
       websiteCompany: data.websiteCompany,
       company: data.company,
       listInterestedCv: [],

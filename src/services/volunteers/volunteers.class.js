@@ -22,6 +22,7 @@ exports.Volunteers = class Volunteers extends Service {
       email: data.email,
       phone: data.phone,
       password: data.password,
+      fields: data.fields,
       role: 'volunteer',
       rooms: [],
       listNotifications: [],
@@ -38,7 +39,6 @@ exports.Volunteers = class Volunteers extends Service {
     const dataSpecialist = {
       userId: _id,
       isAccept: false,
-      fields: data.fields,
       rewardPoint: 0,
       accumulationPoint: 0,
       listReceivedCv: [],

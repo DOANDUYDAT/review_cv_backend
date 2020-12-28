@@ -38,7 +38,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       listInterester: [],
       listReview: [],
       type,
-      fields: data.fields,
+      field: data.field,
       exp: data.exp,
       position: data.position,
       location: data.location,

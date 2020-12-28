@@ -21,6 +21,7 @@ exports.Members = class Members extends Service {
       email: data.email,
       phone: data.phone,
       password: data.password,
+      fields: null,
       role: 'member',
       rooms: [],
       listNotifications: [],
@@ -39,8 +40,7 @@ exports.Members = class Members extends Service {
       isActive: true,
       listCv: [],
       createdAt: new Date().getTime(),
-      updatedAt: null,
-      fields: []
+      updatedAt: null
     };
     return super.create(dataMember, params);
   }
