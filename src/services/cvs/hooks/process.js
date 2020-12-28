@@ -26,6 +26,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       const { id } = await app.service('cvs/upload-cv').create(data, params);
       link = id;
     }
+    let linkHidden = 'hidden-' + link;
 
     let type = link ? 'upload' : 'online';
     context.data = {
@@ -34,6 +35,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       name: data.name,
       userId: user._id,
       link,
+      linkHidden,
       listViewer: [user._id],
       listInterester: [],
       listReview: [],
