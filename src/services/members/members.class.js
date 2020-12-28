@@ -23,6 +23,7 @@ exports.Members = class Members extends Service {
       password: data.password,
       role: 'member',
       rooms: [],
+      listNotifications: [],
       isActive: true,
       reputationPoint: 50,
       getEmailNotification: true,

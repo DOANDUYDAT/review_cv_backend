@@ -24,6 +24,7 @@ exports.Specialists = class Specialists extends Service {
       password: data.password,
       role: 'specialist',
       rooms: [],
+      listNotifications: [],
       isActive: true,
       reputationPoint: 50,
       getEmailNotification: true,

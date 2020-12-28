@@ -24,6 +24,7 @@ exports.Volunteers = class Volunteers extends Service {
       password: data.password,
       role: 'volunteer',
       rooms: [],
+      listNotifications: [],
       isActive: true,
       reputationPoint: 50,
       getEmailNotification: true,
