@@ -13,7 +13,6 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
 
     if (result.type === 'newCv') {
       const cv = await app.service('cvs').get(result.cvId);
-      let linkCv = 'http://localhost:8080/';
       app.service('users').find({
         query: {
           fields: cv.field
@@ -22,6 +21,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
 
         let email = null;
         for (let i = 0; i < data.length; i++) {
+          let linkCv = 'http://localhost:8080/';
           if (data[i].role === 'specialist') {
             linkCv += `specialistHome/view-cv/${cv._id}`.toString();
             email = {
