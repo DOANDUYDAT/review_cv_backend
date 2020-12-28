@@ -23,7 +23,7 @@ exports.Public = class Public {
     if (!toUser) {
       throw new NotFound('Not found user to puclic cv');
     }
-    if (user._id.toString === ownerCv._id.toString()) {
+    if (user._id.toString() === ownerCv._id.toString()) {
       let { listViewer } = cv;
       listViewer.push(toUserId);
       return this.app.service('cvs').patch(cvId, {

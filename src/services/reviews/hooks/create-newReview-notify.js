@@ -11,11 +11,16 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     // logged user
     const { user } = params;
 
+    const { cvId } = data;
+    const cv = await app.service('cvs').get(cvId);
+
     // create new notification
-    await app.service('notifications').create({
+    app.service('notifications').create({
       type: 'newReview',
       from: new ObjectID(user._id),
-      reviewId: result._id
+      to: cv.userId,
+      reviewId: result._id,
+      createdAt: Date.now()
     });
     return context;
   };

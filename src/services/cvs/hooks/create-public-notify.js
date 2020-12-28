@@ -13,11 +13,12 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     const { toUserId } = data;
 
     // create new notification
-    await app.service('notifications').create({
+    app.service('notifications').create({
       type: 'publicCv',
       from: new ObjectID(user._id),
       cvId: result._id,
-      to: new ObjectID(toUserId)
+      to: new ObjectID(toUserId),
+      createdAt: Date.now()
     });
     return context;
   };

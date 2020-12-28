@@ -121,11 +121,7 @@ module.exports = function(app) {
       let listChannels = [...fieldsChannel];
       // console.log(listChannels);
       return listChannels;
-    } else if (data.type === 'interestCv') {
-      return app.channel(`userIds/${data.to.toString()}`);
-    } else if ( data.type === 'publicCv') {
-      return app.channel(`userIds/${data.to.toString()}`);
-    } else if (data.type === 'newReview') {
+    } else if (data.type === 'interestCv' || data.type === 'publicCv' || data.type === 'newReview') {
       return app.channel(`userIds/${data.to.toString()}`);
     }
   });

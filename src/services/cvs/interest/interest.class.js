@@ -43,6 +43,13 @@ exports.Interest = class Interest {
       const indexCv = listInterestedCv.findIndex(e => e.toString() == cvId.toString());
       if (indexCv == -1) {
         listInterestedCv.push(cvId);
+        this.app.service('notifications').create({
+          type: 'interestCv',
+          from: new ObjectID(user._id),
+          to: cv.userId,
+          cvId: cv._id,
+          createdAt: Date.now()
+        });
       } else {
         listInterestedCv.splice(index, 1);
       }
@@ -50,12 +57,7 @@ exports.Interest = class Interest {
         listInterestedCv
       });
 
-      await this.app.service('notifications').create({
-        type: 'interestCv',
-        from: new ObjectID(user._id),
-        to: cv.userId,
-        cvId: cv._id
-      });
+
 
       return this.app.service('cvs').get(cvId, params);
 
