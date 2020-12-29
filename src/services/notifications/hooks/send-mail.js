@@ -22,7 +22,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         let email = null;
         for (let i = 0; i < data.length; i++) {
           let linkCv = 'http://localhost:8080/';
-          if (data[i].role === 'specialist') {
+          if (data[i].role === 'specialist' && data[i].getEmailNotification) {
             linkCv += `specialistHome/view-cv/${cv._id}`.toString();
             email = {
               from: process.env.GMAIL,
@@ -39,7 +39,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
               `
             };
             app.service('emails').create(email);
-          } else if (data[i].role === 'volunteer') {
+          } else if (data[i].role === 'volunteer' && data[i].getEmailNotification) {
             linkCv += `volunteerHome/view-cv/${cv._id}`.toString();
             email = {
               from: process.env.GMAIL,

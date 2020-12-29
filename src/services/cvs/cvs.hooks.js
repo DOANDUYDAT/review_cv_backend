@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+const search = require('feathers-mongodb-fuzzy-search');
 const { authenticate } = require('@feathersjs/authentication').hooks;
 const process = require('./hooks/process');
 const updateListcvMember = require('./hooks/update-listcv-member');
@@ -52,9 +53,9 @@ const query = {
 module.exports = {
   before: {
     all: [ authenticate('jwt') ],
-    find: [mongoKeys(ObjectID, foreignKeys)],
+    find: [search(), mongoKeys(ObjectID, foreignKeys)],
     get: [],
-    create: [process()],
+    create: [],
     update: [],
     patch: [],
     remove: []
