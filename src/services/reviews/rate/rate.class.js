@@ -31,23 +31,53 @@ exports.Rate = class Rate {
     if (!userReview) {
       throw new NotFound('User is not exist');
     }
+
     let { reputationPoint } = userReview;
     let newPoint = 0;
     if (user.role === 'member') {
-      // cộng/trừ điểm uy tín
-      if (content === 'Hài lòng') {
-        newPoint = reputationPoint + 3;
-      } else if (content === 'Bình thường') {
-        newPoint = reputationPoint;
-      } else if (content === 'Không hài lòng') {
-        newPoint = reputationPoint - 3;
-      } else {
-        throw new BadRequest('Loại đánh giá không phù hợp');
+      // cộng/trừ điểm uy tín nếu là chuyên gia
+      if (userReview.role === 'specialist') {
+        if (content === 'Hài lòng') {
+          newPoint = reputationPoint + 3;
+        } else if (content === 'Bình thường') {
+          newPoint = reputationPoint;
+        } else if (content === 'Không hài lòng') {
+          newPoint = reputationPoint - 3;
+        } else {
+          throw new BadRequest('Loại đánh giá không phù hợp');
+        }
+        this.app.service('users').patch(userReview._id, {
+          reputationPoint: newPoint
+        });
       }
-      await this.app.service('users').patch(userReview._id, {
-        reputationPoint: newPoint
-      });
+
+      // cộng vào điểm tích lũy và trừ vào điểm uy tín nếu là volunteer
+      if (userReview.role === 'volunteer') {
+        const volun = (await this.app.service('volunteers').find({
+          query: {
+            userId: userReview._id
+          }
+        })).data[0];
+        const { accumulationPoint } = volun;
+        if (content === 'Hài lòng') {
+          newPoint = accumulationPoint + 3;
+          this.app.service('volunteers').patch(volun._id, {
+            accumulationPoint: newPoint
+          });
+        } else if (content === 'Bình thường') {
+          newPoint = reputationPoint;
+        } else if (content === 'Không hài lòng') {
+          newPoint = reputationPoint - 3;
+          this.app.service('users').patch(userReview._id, {
+            reputationPoint: newPoint
+          });
+        } else {
+          throw new BadRequest('Loại đánh giá không phù hợp');
+        }
+      }
+
       // update rating cho review
+
       await this.app.service('reviews').patch(review._id, {
         rating: {
           content,

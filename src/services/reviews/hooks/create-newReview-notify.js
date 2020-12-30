@@ -17,7 +17,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     // create new notification
     app.service('notifications').create({
       type: 'newReview',
-      from: new ObjectID(user._id),
+      from: user._id,
       to: cv.userId,
       reviewId: result._id,
       createdAt: Date.now()

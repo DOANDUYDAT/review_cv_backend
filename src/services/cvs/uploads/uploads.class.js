@@ -42,7 +42,7 @@ exports.Uploads = class Uploads {
       userId: user._id,
       link,
       linkHidden,
-      listViewer: [user._id],
+      listViewer: [],
       listInterester: [],
       listReview: [],
       type,

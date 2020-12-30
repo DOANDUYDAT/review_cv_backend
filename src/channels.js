@@ -20,6 +20,7 @@ module.exports = function(app) {
 
     // Easily organize users by email and userid for things like messaging
     // app.channel(`emails/${user.email}`).join(connection);
+
     app.channel(`userIds/${user._id.toString()}`).join(connection);
     // E.g. to send real-time events only to admins use
     if(user.role === 'admin') { app.channel('admins').join(connection); }
@@ -49,15 +50,25 @@ module.exports = function(app) {
   // Get a user to leave all channels
   const leaveChannels = user => {
     app.channel(app.channels).leave(connection =>
-      connection.user._id.toString() === user._id.toString()
+    {
+      if (connection.user) {
+        return connection.user._id.toString() === user._id.toString();
+      }
+    }
     );
   };
 
   // Leave and re-join all channels with new user information
   const updateChannels = user => {
-  // Find all connections for this user
+    // Find all connections for this user, trừ connection đã logout mà đang ở channel anonymous
     const { connections } = app.channel(app.channels).filter(connection =>
-      connection.user._id.toString() === user._id.toString()
+    {
+      if (connection.user) {
+        return connection.user._id.toString() === user._id.toString();
+      } else {
+        return false;
+      }
+    }
     );
 
     // Leave all channels

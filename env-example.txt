@@ -1,0 +1,12 @@
+# tạo file .env tương tự như mẫu này
+
+# .env
+PORT=3030
+
+# smtp
+SMTP_USER=test@gmail.com
+SMTP_PASS=123456
+
+# gmail
+GMAIL=test@gmail.com
+GMAIL_PASSWORD=123456

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 const { NotFound, Forbidden } = require('@feathersjs/errors');
-const { ObjectID } = require('mongodb');
+
 /* eslint-disable no-unused-vars */
 exports.Interest = class Interest {
   constructor (options) {
@@ -38,22 +38,27 @@ exports.Interest = class Interest {
       await this.app.service('cvs').patch(cvId, {
         listInterester
       });
-      // thêm/xóa cv trong danh sách cv đã quan tâm của người dùng
-      let listInterestedCv = [...spec.listInterestedCv];
-      const indexCv = listInterestedCv.findIndex(e => e.toString() == cvId.toString());
-      if (indexCv == -1) {
-        listInterestedCv.push(cvId);
+      // tạo thông báo sau khi có người mới quan tâm cv
+      if (index == -1) {
         this.app.service('notifications').create({
           type: 'interestCv',
-          from: new ObjectID(user._id),
+          from: user._id,
           to: cv.userId,
           cvId: cv._id,
           createdAt: Date.now()
         });
+      }
+
+      // thêm/xóa cv trong danh sách cv đã quan tâm của người dùng
+      let listInterestedCv = [...spec.listInterestedCv];
+      const indexCv = listInterestedCv.findIndex(e => e.toString() == cvId.toString());
+
+      if (indexCv == -1) {
+        listInterestedCv.push(cvId);
       } else {
         listInterestedCv.splice(index, 1);
       }
-      await this.app.service('specialists').patch(spec._id, {
+      this.app.service('specialists').patch(spec._id, {
         listInterestedCv
       });
 

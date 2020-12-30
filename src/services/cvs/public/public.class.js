@@ -25,7 +25,7 @@ exports.Public = class Public {
     }
     if (user._id.toString() === ownerCv._id.toString()) {
       let { listViewer } = cv;
-      listViewer.push(toUserId);
+      listViewer.push(toUser._id);
       return this.app.service('cvs').patch(cvId, {
         listViewer
       }, params);
