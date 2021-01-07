@@ -1,5 +1,5 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
-const validateSpecialist = require('../../hooks/validation/specialist');
+const validateSpecialist = require('./hooks/validate-create');
 const {
   hashPassword
 } = require('@feathersjs/authentication-local').hooks;

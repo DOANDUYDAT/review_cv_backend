@@ -65,7 +65,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
 
     } else if (result.type === 'newReview') {
       const toUser = await app.service('users').get(result.to);
-      let linkReview = `http://localhost:8080/memberHome/memberHome/review-result/${result.reviewId}`;
+      let linkReview = `http://localhost:8080/memberHome/review-result/${result.reviewId}`;
       let email = {
         from: process.env.GMAIL,
         to: toUser.email,
