@@ -43,10 +43,11 @@ const answerResolvers = {
   joins: {
     user: (...args) => async (answer, context) => {
       const { params } = context;
-      // console.log(params);
-      console.log(answer.userId);
-      answer.user = await context.app.service('users').get(answer.userId, params);
-      console.log(answer.user);
+      answer.user = await context.app.service('users').get(answer.userId,
+        {
+          ...params,
+          query: {}
+        });
     },
     likers: {
       resolver: (...args) => async (answer, context) => {
