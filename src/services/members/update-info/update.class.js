@@ -12,7 +12,7 @@ exports.Update = class Update {
   }
 
   async create (data, params) {
-    const { _id, userId, userName, phone, getEmailNotification } = data;
+    const { _id, userId, userName, phone, fields } = data;
     const { user } = params;
     // nếu người  là admin hoặc chủ tài khoản thì mới được update
     if (user.role === 'admin' || user._id == userId) {
@@ -23,7 +23,7 @@ exports.Update = class Update {
         await this.app.service('users').patch(userId, {
           userName,
           phone,
-          getEmailNotification
+          fields
         });
         return this.app.service('members').get(_id, params);
       }

@@ -25,9 +25,6 @@ exports.Update = class Update {
           phone,
           fields
         });
-        await this.app.service('volunteers').patch(_id, {
-          fields
-        });
         return this.app.service('volunteers').get(_id, params);
       }
 

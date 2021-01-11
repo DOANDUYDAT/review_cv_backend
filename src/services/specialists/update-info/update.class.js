@@ -12,7 +12,7 @@ exports.Update = class Update {
   }
 
   async create (data, params) {
-    const { _id, userId, userName, phone, fields, getEmailNotification } = data;
+    const { _id, userId, userName, phone, fields } = data;
     // logged user
     const { user } = params;
     const userChange = await this.app.service('specialists').get(_id);
@@ -24,11 +24,9 @@ exports.Update = class Update {
         await this.app.service('users').patch(userChange.userId, {
           userName,
           phone,
-          getEmailNotification
-        });
-        await this.app.service('specialists').patch(_id, {
           fields
         });
+
         return this.app.service('specialists').get(_id, params);
       } else {
         throw new Forbidden('Not Forbidden');
