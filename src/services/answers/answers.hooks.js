@@ -20,7 +20,10 @@ const commentResolvers = {
   joins: {
     user: (...args) => async (comment, context) => {
       const {params} = context;
-      comment.user = await context.app.service('users').get(comment.userId, params);
+      comment.user = await context.app.service('users').get(comment.userId, {
+        ...params,
+        query: {}
+      });
     },
     // likers: {
     //   resolver: (...args) => async (comment, context) => {

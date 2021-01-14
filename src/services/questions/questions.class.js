@@ -4,8 +4,10 @@ exports.Questions = class Questions extends Service {
   constructor(options, app) {
     super(options);
 
-    app.get('mongoClient').then(db => {
-      this.Model = db.collection('questions');
+    app.get('mongoClient').then(async db => {
+      const questionsCollection = db.collection('questions');
+      await questionsCollection.createIndex({ title: 'text', content: 'text' });
+      this.Model = questionsCollection;
     });
   }
 };

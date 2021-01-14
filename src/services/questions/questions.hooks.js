@@ -4,7 +4,12 @@ const validationQuestion = require('./hooks/validation');
 const processQuestion = require('./hooks/process');
 const populateUser = require('../../hooks/populate-user');
 const commonHooks = require('feathers-hooks-common');
-
+const search = require('feathers-mongodb-fuzzy-search');
+const { mongoKeys } = require('feathers-hooks-common');
+const { ObjectID } = require('mongodb');
+const foreignKeys = [
+  '_id', 'userId'
+];
 // fast join
 const { fastJoin, makeCallingParams } = require('feathers-hooks-common');
 const BatchLoader = require('@feathers-plus/batch-loader');
@@ -192,7 +197,7 @@ const query = {
 module.exports = {
   before: {
     all: [ authenticate('jwt') ],
-    find: [],
+    find: [search(), mongoKeys(ObjectID, foreignKeys)],
     get: [],
     create: [ validationQuestion(), processQuestion() ],
     update: [commonHooks.disallow('external')],
