@@ -1,10 +1,11 @@
 /* eslint-disable no-unused-vars */
+const search = require('feathers-mongodb-fuzzy-search');
 const { authenticate } = require('@feathersjs/authentication').hooks;
 const validationQuestion = require('./hooks/validation');
 const processQuestion = require('./hooks/process');
 const populateUser = require('../../hooks/populate-user');
 const commonHooks = require('feathers-hooks-common');
-const search = require('feathers-mongodb-fuzzy-search');
+
 const { mongoKeys } = require('feathers-hooks-common');
 const { ObjectID } = require('mongodb');
 const foreignKeys = [
@@ -78,7 +79,10 @@ const commentResolvers = {
   joins: {
     user: (...args) => async (comment, context) => {
       const {params} = context;
-      comment.user = await context.app.service('users').get(comment.userId, params);
+      comment.user = await context.app.service('users').get(comment.userId, {
+        ...params,
+        query: {}
+      });
     },
     // likers: {
     //   resolver: (...args) => async (comment, context) => {
@@ -146,7 +150,10 @@ const questionResolvers = {
   joins: {
     user: (...args) => async (question, context) => {
       const {params} = context;
-      question.user = await context.app.service('users').get(question.userId, params);
+      question.user = await context.app.service('users').get(question.userId, {
+        ...params,
+        query: {}
+      });
     },
     likers: {
       resolver: (...args) => async (question, context) => {

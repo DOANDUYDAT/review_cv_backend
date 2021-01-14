@@ -6,7 +6,7 @@ exports.Questions = class Questions extends Service {
 
     app.get('mongoClient').then(async db => {
       const questionsCollection = db.collection('questions');
-      await questionsCollection.createIndex({ title: 'text', content: 'text' });
+      await questionsCollection.createIndex({ title: 'text' });
       this.Model = questionsCollection;
     });
   }
