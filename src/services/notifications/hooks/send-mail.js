@@ -81,6 +81,26 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         `
       };
       app.service('emails').create(email);
+    }
+    else if (result.type === 'exchangeGift') {
+      const toUser = await app.service('users').get(result.to);
+      const gift = await app.service('gifts').get(result.giftId);
+
+      let email = {
+        from: process.env.GMAIL,
+        to: toUser.email,
+        subject: 'Quà tặng',
+        html:
+        `
+        <p>
+        Bạn đã đổi thành công quà tặng <b>${gift.name}</b>
+        </p>
+        <p>
+        Mã quà tặng là: <b>${gift.serial}</b>
+        </p>
+        `
+      };
+      app.service('emails').create(email);
     } else {
       console.log('send mail');
     }

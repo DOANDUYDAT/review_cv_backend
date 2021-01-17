@@ -25,6 +25,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       value: data.value,
       category: data.category,
       image,
+      serial: data.serial,
       createdAt: new Date().getTime(),
       updatedAt: null
     };
