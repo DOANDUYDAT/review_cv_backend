@@ -70,6 +70,11 @@ const rooms = require('./rooms/rooms.service.js');
 
 
 
+const recruitments = require('./recruitments/recruitments.service.js');
+
+
+
+
 // eslint-disable-next-line no-unused-vars
 module.exports = function (app) {
   // manage auth
@@ -135,4 +140,5 @@ module.exports = function (app) {
   app.configure(reportReview);
   app.configure(rateReview);
   app.configure(rooms);
+  app.configure(recruitments);
 };
