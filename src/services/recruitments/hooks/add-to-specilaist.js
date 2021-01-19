@@ -9,12 +9,12 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     const { data, params, app, result } = context;
 
     const { user } = params;
-    const spec = await app.service('specialists').find({
-      ...params,
+    const spec = (await app.service('specialists').find({
       query: {
         userId: user._id
       }
-    });
+    })).data[0];
+    console.log(params);
     if (spec) {
       let { listRecruitmentNews } = spec;
       listRecruitmentNews.push(result._id);

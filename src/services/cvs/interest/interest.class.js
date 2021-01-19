@@ -38,6 +38,7 @@ exports.Interest = class Interest {
       await this.app.service('cvs').patch(cvId, {
         listInterester
       });
+      const recruitmentId = spec.listRecruitmentNews.length ? spec.listRecruitmentNews[0] : null;
       // tạo thông báo sau khi có người mới quan tâm cv
       if (index == -1) {
         this.app.service('notifications').create({
@@ -45,6 +46,7 @@ exports.Interest = class Interest {
           from: user._id,
           to: cv.userId,
           cvId: cv._id,
+          recruitmentId,
           createdAt: Date.now()
         });
       }
