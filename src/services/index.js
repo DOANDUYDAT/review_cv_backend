@@ -69,8 +69,9 @@ const rooms = require('./rooms/rooms.service.js');
 
 
 
-
+// recruitments
 const recruitments = require('./recruitments/recruitments.service.js');
+const setPrimaryRecruitment = require('./recruitments/primary/primary.service');
 
 
 
@@ -140,5 +141,8 @@ module.exports = function (app) {
   app.configure(reportReview);
   app.configure(rateReview);
   app.configure(rooms);
+
+  // recruitments
   app.configure(recruitments);
+  app.configure(setPrimaryRecruitment);
 };

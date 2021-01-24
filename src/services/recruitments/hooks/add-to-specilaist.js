@@ -14,7 +14,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         userId: user._id
       }
     })).data[0];
-    console.log(params);
+
     if (spec) {
       let { listRecruitmentNews } = spec;
       listRecruitmentNews.push(result._id);

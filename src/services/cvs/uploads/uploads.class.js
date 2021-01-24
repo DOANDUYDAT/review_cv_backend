@@ -1,5 +1,9 @@
 /* eslint-disable no-unused-vars */
 const { NotFound, Forbidden } = require('@feathersjs/errors');
+const axios = require('axios');
+const FormData = require('form-data');
+const fs = require('fs');
+const path = require('path');
 
 /* eslint-disable no-unused-vars */
 exports.Uploads = class Uploads {
@@ -33,7 +37,7 @@ exports.Uploads = class Uploads {
       link = id;
     }
     let linkHidden = 'hidden-' + link;
-
+    getHideInfoFile(link, linkHidden);
     let type = 'upload';
     let dataCv = {
       // Set the user id
@@ -59,3 +63,31 @@ exports.Uploads = class Uploads {
 
   }
 };
+
+
+function getHideInfoFile(pathFile, pathHiddenFile) {
+  const cvUploadFolder = process.cwd() + '/uploads/cv/';
+  const sendFilePath = path.join(cvUploadFolder, pathFile);
+  const saveFilePath = path.join(cvUploadFolder, pathHiddenFile);
+  let data = new FormData();
+  data.append('file', fs.createReadStream(sendFilePath));
+
+  let config = {
+    method: 'post',
+    url: 'http://localhost:5000/parser',
+    headers: {
+      ...data.getHeaders()
+    },
+    responseType: 'stream',
+    data : data
+  };
+
+  axios(config)
+    .then(function (response) {
+      // console.log(JSON.stringify(response.data));
+      response.data.pipe(fs.createWriteStream(saveFilePath));
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
