@@ -85,7 +85,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     else if (result.type === 'exchangeGift') {
       const toUser = await app.service('users').get(result.to);
       const gift = await app.service('gifts').get(result.giftId);
-
+      let serial = makeSerial(12);
       let email = {
         from: process.env.GMAIL,
         to: toUser.email,
@@ -96,7 +96,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         Bạn đã đổi thành công quà tặng <b>${gift.name}</b>
         </p>
         <p>
-        Mã quà tặng là: <b>${gift.serial}</b>
+        Mã quà tặng là: <b>${serial}</b>
         </p>
         `
       };
@@ -108,3 +108,15 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     return context;
   };
 };
+
+
+function makeSerial(length) {
+  let result = '';
+  //var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let characters = '0123456789';
+  let charactersLength = characters.length;
+  for ( let i = 0; i < length; i++ ) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}

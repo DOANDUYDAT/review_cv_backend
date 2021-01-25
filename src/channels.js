@@ -120,8 +120,25 @@ module.exports = function(app) {
   app.service('users').publish('created', () => app.channel('admins'));
 
   // With the userid and email organization from above you can easily select involved users
-  app.service('messages').publish('created', (data, context) => {
-    return app.channel(`rooms/${data.roomId.toString()}`);
+  app.service('messages').publish('created', async (data, context) => {
+    // get reviewId
+    let sendData = {...data};
+    let review = (await app.service('reviews').find({
+      query: {
+        roomId: data.roomId,
+        $select: [ '_id' ]
+      }
+    })).data[0];
+    sendData.review = review;
+    // get user
+    let user = await app.service('users').get(data.userId, {
+      query: {
+        $select: [ '_id', 'role', 'fullName' ]
+      }
+    });
+    sendData.user = user;
+
+    return app.channel(`rooms/${data.roomId.toString()}`).send(sendData);
   });
   app.service('notifications').publish('created', async (data, context) => {
     // if (data.type === 'message') {

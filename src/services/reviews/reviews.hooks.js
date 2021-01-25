@@ -8,7 +8,7 @@ const commonHooks = require('feathers-hooks-common');
 const { mongoKeys } = require('feathers-hooks-common');
 const { ObjectID } = require('mongodb');
 const foreignKeys = [
-  '_id', 'cvId', 'userId'
+  '_id', 'cvId', 'userId', 'roomId'
 ];
 // fast join
 const { fastJoin, makeCallingParams } = require('feathers-hooks-common');
@@ -82,8 +82,8 @@ module.exports = {
 
   after: {
     all: [],
-    find: [fastJoin(reviewResolvers, query)],
-    get: [fastJoin(reviewResolvers, query)],
+    find: [commonHooks.iff(commonHooks.isProvider('external'), fastJoin(reviewResolvers, query))],
+    get: [commonHooks.iff(commonHooks.isProvider('external'), fastJoin(reviewResolvers, query))],
     create: [updatListReview(), updateRoom(), createNewNotification()],
     update: [],
     patch: [],
